@@ -4,6 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        IStep step = new Step(")+*('*+),,,,,,,,--------------------------------&&&&&&&&#%$\"!$%#");
+        IView view = new ConsoleView();
+        view.Draw(step);
     }
 }
