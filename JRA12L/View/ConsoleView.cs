@@ -26,28 +26,18 @@ public class ConsoleView : IView
     public void Draw(IStep step, Coordinates playerCoordinates)
     {
         Console.SetCursorPosition(0, 0);
-        for(int i = 0; i < step.GetYAxisLenght(); i++)
+        for(byte i = 0; i < step.GetYAxisLenght(); i++)
         {
-            for(int j = 0; j < step.GetXAxisLenght(); j++)
+            for(byte j = 0; j < step.GetXAxisLenght(); j++)
             {
                 SetConsoleBackgroundColor(j, i, playerCoordinates);
-                Console.Write(ConvertToTile(step[i*step.GetXAxisLenght() + j]));
+                Console.Write(step[j, i]);
                 Console.Out.Flush();
             }
             Console.BackgroundColor = GameBackgroundColor;
             Console.Write('\n');
         }
     }
-
-    private static string ConvertToTile(IStep.Figure figure)
-    {
-        if(figure == IStep.Figure.BlankTile)
-        {
-            return "   ";
-        }
-        return $" {(char)(DifferenceBetweenFigureAndCharRepresantation + (char)figure)} ";
-    }
-
     private static void SetConsoleBackgroundColor(int xCoordinate, int yCoordinate, Coordinates playerCoordinates)
     {
         if(playerCoordinates.X == xCoordinate && playerCoordinates.Y == yCoordinate)
