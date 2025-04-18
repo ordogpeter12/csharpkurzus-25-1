@@ -6,8 +6,8 @@ public class ConsoleView : IView
     private readonly ConsoleColor _defaultConsoleForegroundColor;
     private readonly ConsoleColor _defaultConsoleBackgroundColor;
     
-    private const ConsoleColor FigureColor = ConsoleColor.Black;
-    private const ConsoleColor BackgroundColor = ConsoleColor.Black;
+    private const ConsoleColor GameFigureColor = ConsoleColor.Black;
+    private const ConsoleColor GameBackgroundColor = ConsoleColor.Black;
     
     private const ConsoleColor BlackTileColor = ConsoleColor.DarkYellow;
     private const ConsoleColor WhiteTileColor = ConsoleColor.White;
@@ -18,21 +18,23 @@ public class ConsoleView : IView
         _defaultConsoleForegroundColor = Console.ForegroundColor;
         _defaultConsoleBackgroundColor = Console.BackgroundColor;
         
-        Console.ForegroundColor = FigureColor;
-        Console.BackgroundColor = BackgroundColor;
+        Console.ForegroundColor = GameFigureColor;
+        Console.BackgroundColor = GameBackgroundColor;
+        Console.CursorVisible = false;
         Console.Clear();
     }
-    public void Draw(IStep step)
+    public void Draw(IStep step, Coordinates playerCoordinates)
     {
-        for(int i = 0; i < step.GetXAxisLenght(); i++)
+        Console.SetCursorPosition(0, 0);
+        for(int i = 0; i < step.GetYAxisLenght(); i++)
         {
-            for(int j = 0; j < step.GetYAxisLenght(); j++)
+            for(int j = 0; j < step.GetXAxisLenght(); j++)
             {
-                SetConsoleBackgroundColor(i, j);
-                Console.Write(ConvertToTile(step[i*step.GetYAxisLenght() + j]));
+                SetConsoleBackgroundColor(j, i, playerCoordinates);
+                Console.Write(ConvertToTile(step[i*step.GetXAxisLenght() + j]));
                 Console.Out.Flush();
             }
-            Console.BackgroundColor = BackgroundColor;
+            Console.BackgroundColor = GameBackgroundColor;
             Console.Write('\n');
         }
     }
@@ -46,8 +48,15 @@ public class ConsoleView : IView
         return $" {(char)(DifferenceBetweenFigureAndCharRepresantation + (char)figure)} ";
     }
 
-    private static void SetConsoleBackgroundColor(int xCoordinate, int yCoordinate)
+    private static void SetConsoleBackgroundColor(int xCoordinate, int yCoordinate, Coordinates playerCoordinates)
     {
-        Console.BackgroundColor = (xCoordinate+yCoordinate)%2 == 0 ? WhiteTileColor : BlackTileColor;
+        if(playerCoordinates.X == xCoordinate && playerCoordinates.Y == yCoordinate)
+        {
+            Console.BackgroundColor = PlayerLocationColor;
+        }
+        else
+        {
+            Console.BackgroundColor = (xCoordinate+yCoordinate)%2 == 0 ? WhiteTileColor : BlackTileColor;
+        }
     }
 }

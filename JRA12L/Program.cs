@@ -4,8 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        IStep step = new Step(")+*('*+),,,,,,,,--------------------------------&&&&&&&&#%$\"!$%#");
-        IView view = new ConsoleView();
-        view.Draw(step);
+        Game game = new Game(new ConsoleUserInput(), new ConsoleView(), new ChessTable(new Step()));
+        game.StartGame();
     }
 }

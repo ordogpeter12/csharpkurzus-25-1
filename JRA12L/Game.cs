@@ -4,21 +4,60 @@ public class Game
 {
     private bool _gameOver;
     private Coordinates _playerPosition;
-    private ChessTable _chessTable;
+    private ITable _chessTable;
     
     private IUserInput _userInput;
     private IView _view;
 
-    public Game(IUserInput userInput, IView view)
+    public Game(IUserInput userInput, IView view, ITable chessTable)
     {
         this._userInput = userInput;
         this._view = view;
+        this._chessTable = chessTable;
+        _gameOver = false;
+        this._playerPosition = new Coordinates(4, 4);
     }
     public void StartGame()
     {
         while(!_gameOver)
         {
-            
+            _view.Draw(_chessTable.GetCurrentStep(), _playerPosition);
+            switch((IUserInput.UserInput)_userInput.GetUserInput())
+            {
+                case IUserInput.UserInput.Up:
+                    if(_playerPosition.Y > 0)
+                         _playerPosition.Y--;
+                    break;
+                case IUserInput.UserInput.Down:
+                    if(_playerPosition.Y < _chessTable.GetCurrentStep().GetYAxisLenght()-1)
+                        _playerPosition.Y++;
+                    break;
+                case IUserInput.UserInput.Left:
+                    if(_playerPosition.X > 0)
+                        _playerPosition.X--;
+                    break;
+                case IUserInput.UserInput.Right:
+                    if(_playerPosition.X < _chessTable.GetCurrentStep().GetXAxisLenght()-1)
+                        _playerPosition.X++;
+                    break;
+                case IUserInput.UserInput.Select:
+                    break;
+                case IUserInput.UserInput.Forward:
+                    break;
+                case IUserInput.UserInput.Backward:
+                    break;
+                case IUserInput.UserInput.Save:
+                    break;
+                case IUserInput.UserInput.Exit:
+                    _gameOver = true;
+                    break;
+            }
         }
+        FinalizeGame();
+    }
+
+    private void FinalizeGame()
+    {
+        
     }
 }

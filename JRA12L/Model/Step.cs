@@ -18,6 +18,22 @@ public sealed record Step : IStep
         _shortCastle = step._shortCastle;
         _longCastle = step._longCastle;
     }
+
+    public Step()
+    {
+        //chess starting position
+        _tableValue = new[]
+        {
+            IStep.Figure.BlackRook, IStep.Figure.BlackKnight, IStep.Figure.BlackBishop, IStep.Figure.BlackQueen, IStep.Figure.BlackKing, IStep.Figure.BlackBishop, IStep.Figure.BlackKnight, IStep.Figure.BlackRook,
+            IStep.Figure.BlackPawn, IStep.Figure.BlackPawn, IStep.Figure.BlackPawn, IStep.Figure.BlackPawn, IStep.Figure.BlackPawn, IStep.Figure.BlackPawn, IStep.Figure.BlackPawn, IStep.Figure.BlackPawn,
+            IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile,
+            IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile,
+            IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile,
+            IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile, IStep.Figure.BlankTile,
+            IStep.Figure.WhitePawn, IStep.Figure.WhitePawn, IStep.Figure.WhitePawn, IStep.Figure.WhitePawn, IStep.Figure.WhitePawn, IStep.Figure.WhitePawn, IStep.Figure.WhitePawn, IStep.Figure.WhitePawn,
+            IStep.Figure.WhitePawn, IStep.Figure.WhiteKnight, IStep.Figure.WhiteBishop, IStep.Figure.WhiteQueen, IStep.Figure.WhiteKing, IStep.Figure.WhiteBishop, IStep.Figure.WhiteKnight, IStep.Figure.WhiteRook,
+        };
+    }
     int IStep.GetXAxisLenght() => XAxisLenght;
 
     int IStep.GetYAxisLenght() => YAxisLenght;
