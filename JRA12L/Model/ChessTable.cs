@@ -23,7 +23,7 @@ public class ChessTable : ITable
     public List<Coordinates> GetValidMoves(Coordinates selectedFigure)
     {
         _validMoves = GetCurrentStep()[selectedFigure.X, selectedFigure.Y].GetValidMoves(GetCurrentStep(), selectedFigure);
-        _validMoves.Sort();
+        _validMoves.Sort((a, b) => b.CompareTo(a));
         return _validMoves;
     }
 }

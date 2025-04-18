@@ -24,15 +24,15 @@ public class ConsoleView : IView
         Console.CursorVisible = false;
         Console.Clear();
     }
-    public void Draw(IStep step, Coordinates playerCoordinates, List<Coordinates>? orderedPossibleMoves = null)
+    public void Draw(IStep step, Coordinates playerCoordinates, List<Coordinates>? reverseOrderedPossibleMoves = null)
     {
-        orderedPossibleMoves ??= [];
+        reverseOrderedPossibleMoves ??= [];
         Console.SetCursorPosition(0, 0);
         for(byte i = 0; i < step.GetYAxisLenght(); i++)
         {
             for(byte j = 0; j < step.GetXAxisLenght(); j++)
             {
-                SetConsoleBackgroundColor(j, i, playerCoordinates, orderedPossibleMoves);
+                SetConsoleBackgroundColor(j, i, playerCoordinates, reverseOrderedPossibleMoves);
                 Console.Write(step[j, i]);
                 Console.Out.Flush();
             }
@@ -42,17 +42,16 @@ public class ConsoleView : IView
     }
     private static void SetConsoleBackgroundColor(int xCoordinate, int yCoordinate, Coordinates playerCoordinates, List<Coordinates> possibleMoves)
     {
-        
         if(playerCoordinates.X == xCoordinate && playerCoordinates.Y == yCoordinate)
         {
             Console.BackgroundColor = PlayerLocationColor;
             //Needed to always clear passed Coordinates
-            if(possibleMoves.Count > 0 && playerCoordinates.X == possibleMoves[0].X && playerCoordinates.Y == possibleMoves[0].Y)
-                possibleMoves.RemoveAt(0);
+            if(possibleMoves.Count > 0 && playerCoordinates.X == possibleMoves.LastOrDefault().X && playerCoordinates.Y == possibleMoves.LastOrDefault().Y)
+                possibleMoves.RemoveAt(possibleMoves.Count-1);
         }
-        else if(possibleMoves.Count > 0 && possibleMoves[0].X == xCoordinate && possibleMoves[0].Y == yCoordinate)
+        else if(possibleMoves.Count > 0 && possibleMoves.LastOrDefault().X == xCoordinate && possibleMoves.LastOrDefault().Y == yCoordinate)
         {
-            possibleMoves.RemoveAt(0);
+            possibleMoves.RemoveAt(possibleMoves.Count-1);
             Console.BackgroundColor = PossibleMoveColor;
         }
         else
