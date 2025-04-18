@@ -2,7 +2,7 @@ namespace JRA12L;
 
 public class BlackKnight : IFigure
 {
-    public ChessPieceColor Color { get; }
+    public ChessPieceColor Color { get; } = ChessPieceColor.Black;
     public List<Coordinates> GetValidMoves(in IStep step, in Coordinates figureCoordinates)
     {
         List<Coordinates> validMoves = new();

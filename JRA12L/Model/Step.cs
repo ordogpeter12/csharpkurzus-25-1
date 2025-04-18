@@ -17,16 +17,16 @@ public sealed record Step : IStep
     public Step()
     {
         //chess starting position
-        _tableValue = new[]
+        _tableValue = new IFigure[]
         {
-            new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(),
-            new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(),
-            new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(),
-            new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(),
-            new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(),
-            new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(),
-            new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(),
-            new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(), new BlackKnight(),
+            new BlackRook(), new BlackKnight(), new BlackBishop(), new BlackQueen(), new BlackKing(), new BlackBishop(), new BlackKnight(), new BlackRook(),
+            new BlackPawn(), new BlackPawn(), new BlackPawn(), new BlackPawn(), new BlackPawn(), new BlackPawn(), new BlackPawn(), new BlackPawn(),
+            new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(),
+            new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(),
+            new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(),
+            new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(), new BlankTile(),
+            new WhitePawn(), new WhitePawn(), new WhitePawn(), new WhitePawn(), new WhitePawn(), new WhitePawn(), new WhitePawn(), new WhitePawn(),
+            new WhiteRook(), new WhiteKnight(), new WhiteBishop(), new WhiteQueen(), new WhiteKing(), new WhiteBishop(), new WhiteKnight(), new WhiteRook(),
         };
     }
     int IStep.GetXAxisLenght() => XAxisLenght;
