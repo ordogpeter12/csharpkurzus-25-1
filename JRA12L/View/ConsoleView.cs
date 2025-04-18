@@ -12,6 +12,7 @@ public class ConsoleView : IView
     private const ConsoleColor BlackTileColor = ConsoleColor.DarkYellow;
     private const ConsoleColor WhiteTileColor = ConsoleColor.White;
     private const ConsoleColor PlayerLocationColor = ConsoleColor.DarkMagenta;
+    private const ConsoleColor PossibleMoveColor = ConsoleColor.DarkGreen;
 
     public ConsoleView()
     {
@@ -23,14 +24,15 @@ public class ConsoleView : IView
         Console.CursorVisible = false;
         Console.Clear();
     }
-    public void Draw(IStep step, Coordinates playerCoordinates)
+    public void Draw(IStep step, Coordinates playerCoordinates, List<Coordinates>? orderedPossibleMoves = null)
     {
+        orderedPossibleMoves ??= [];
         Console.SetCursorPosition(0, 0);
         for(byte i = 0; i < step.GetYAxisLenght(); i++)
         {
             for(byte j = 0; j < step.GetXAxisLenght(); j++)
             {
-                SetConsoleBackgroundColor(j, i, playerCoordinates);
+                SetConsoleBackgroundColor(j, i, playerCoordinates, orderedPossibleMoves);
                 Console.Write(step[j, i]);
                 Console.Out.Flush();
             }
@@ -38,11 +40,20 @@ public class ConsoleView : IView
             Console.Write('\n');
         }
     }
-    private static void SetConsoleBackgroundColor(int xCoordinate, int yCoordinate, Coordinates playerCoordinates)
+    private static void SetConsoleBackgroundColor(int xCoordinate, int yCoordinate, Coordinates playerCoordinates, List<Coordinates> possibleMoves)
     {
+        
         if(playerCoordinates.X == xCoordinate && playerCoordinates.Y == yCoordinate)
         {
             Console.BackgroundColor = PlayerLocationColor;
+            //Needed to always clear passed Coordinates
+            if(possibleMoves.Count > 0 && playerCoordinates.X == possibleMoves[0].X && playerCoordinates.Y == possibleMoves[0].Y)
+                possibleMoves.RemoveAt(0);
+        }
+        else if(possibleMoves.Count > 0 && possibleMoves[0].X == xCoordinate && possibleMoves[0].Y == yCoordinate)
+        {
+            possibleMoves.RemoveAt(0);
+            Console.BackgroundColor = PossibleMoveColor;
         }
         else
         {

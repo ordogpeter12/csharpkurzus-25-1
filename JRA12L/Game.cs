@@ -41,6 +41,7 @@ public class Game
                         _playerPosition.X++;
                     break;
                 case IUserInput.UserInput.Select:
+                    SelectAction(_chessTable.GetValidMoves(_playerPosition));
                     break;
                 case IUserInput.UserInput.Forward:
                     break;
@@ -54,6 +55,47 @@ public class Game
             }
         }
         FinalizeGame();
+    }
+
+    private void SelectAction(List<Coordinates> validMoves)
+    {
+        if (validMoves.Count > 0)
+        {
+            WhileFigureSelected(validMoves);
+        }
+    }
+    private void WhileFigureSelected(List<Coordinates> validMoves)
+    {
+        bool figureSelected = true;
+        while(figureSelected)
+        {
+            _view.Draw(_chessTable.GetCurrentStep(), _playerPosition, [..validMoves]);
+            switch((IUserInput.UserInput)_userInput.GetUserInput())
+            {
+                case IUserInput.UserInput.Up:
+                    if(_playerPosition.Y > 0)
+                        _playerPosition.Y--;
+                    break;
+                case IUserInput.UserInput.Down:
+                    if(_playerPosition.Y < _chessTable.GetCurrentStep().GetYAxisLenght()-1)
+                        _playerPosition.Y++;
+                    break;
+                case IUserInput.UserInput.Left:
+                    if(_playerPosition.X > 0)
+                        _playerPosition.X--;
+                    break;
+                case IUserInput.UserInput.Right:
+                    if(_playerPosition.X < _chessTable.GetCurrentStep().GetXAxisLenght()-1)
+                        _playerPosition.X++;
+                    break;
+                case IUserInput.UserInput.Select:
+
+                    break;
+                case IUserInput.UserInput.Exit:
+                    figureSelected = false;
+                    break;
+            }
+        }
     }
 
     private void FinalizeGame()

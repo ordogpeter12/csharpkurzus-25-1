@@ -34,8 +34,8 @@ public class BlackKnight : IFigure
         }
         if(figureCoordinates.Y > 0)
         {
-            if (figureCoordinates.X < step.GetXAxisLenght() - 2 &&
-                step[(byte)(figureCoordinates.X + 2), (byte)(figureCoordinates.Y - 1)].Color != ChessPieceColor.Black)
+            if (figureCoordinates.X < step.GetXAxisLenght() - 2
+                && step[(byte)(figureCoordinates.X + 2), (byte)(figureCoordinates.Y - 1)].Color != ChessPieceColor.Black)
             {
                 validMoves.Add(new Coordinates((byte)(figureCoordinates.X+2), (byte)(figureCoordinates.Y-1)));
             }

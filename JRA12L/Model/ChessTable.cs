@@ -5,6 +5,8 @@ public class ChessTable : ITable
     private List<IStep> _steps;
     private int _displayIndex; //For rewinding steps
     
+    private List<Coordinates> _validMoves;
+    
     public ChessTable(List<IStep> steps)
     {
         this._steps = steps;
@@ -20,6 +22,8 @@ public class ChessTable : ITable
 
     public List<Coordinates> GetValidMoves(Coordinates selectedFigure)
     {
-        return new List<Coordinates>();
+        _validMoves = GetCurrentStep()[selectedFigure.X, selectedFigure.Y].GetValidMoves(GetCurrentStep(), selectedFigure);
+        _validMoves.Sort();
+        return _validMoves;
     }
 }
