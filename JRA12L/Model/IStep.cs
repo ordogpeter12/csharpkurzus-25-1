@@ -4,5 +4,5 @@ public interface IStep
 {
     int GetXAxisLenght();
     int GetYAxisLenght();
-    IFigure this[byte x, byte y] { get; }
+    Figure this[byte x, byte y] { get; }
 }
