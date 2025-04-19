@@ -4,6 +4,6 @@ public interface IStep
 {
     int GetXAxisLenght();
     int GetYAxisLenght();
-    Figure this[byte x, byte y] { get; }
+    Figure this[sbyte x, sbyte y] { get; }
     public Figure this[Coordinates coordinates] { get; }
 }

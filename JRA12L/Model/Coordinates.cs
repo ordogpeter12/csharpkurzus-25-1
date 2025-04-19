@@ -1,9 +1,9 @@
 namespace JRA12L;
 
-public class Coordinates(byte x, byte y) : IComparable<Coordinates>
+public class Coordinates(sbyte x, sbyte y) : IComparable<Coordinates>
 {
-    public byte X = x;
-    public byte Y = y;
+    public sbyte X = x;
+    public sbyte Y = y;
 
     public Coordinates(Coordinates other) : this(other.X, other.Y) {}
     public int CompareTo(Coordinates other)

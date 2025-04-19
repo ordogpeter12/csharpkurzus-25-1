@@ -27,7 +27,7 @@ public sealed record Step : IStep
     int IStep.GetXAxisLenght() => XAxisLenght;
 
     int IStep.GetYAxisLenght() => YAxisLenght;
-    public Figure this[byte x, byte y] { get => TableValue[y*XAxisLenght+x]; }
+    public Figure this[sbyte x, sbyte y] { get => TableValue[y*XAxisLenght+x]; }
     
     public Figure this[Coordinates coordinates] { get => TableValue[coordinates.Y*XAxisLenght+coordinates.X]; }
 }

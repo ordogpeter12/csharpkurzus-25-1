@@ -1,13 +1,13 @@
 namespace JRA12L;
 
-public enum ChessPieceColor : byte
+public enum ChessPieceColor : sbyte
 {
     Blank,
     White,
     Black,
 }
 
-public enum ChessPieceType : byte
+public enum ChessPieceType : sbyte
 {
     None,
     Pawn,

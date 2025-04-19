@@ -12,53 +12,53 @@ public class WhiteKnight : Figure
         if(figureCoordinates.Y < table.GetCurrentStep().GetYAxisLenght()-1)
         {
             if (figureCoordinates.X < table.GetCurrentStep().GetXAxisLenght() - 2
-                && table.GetCurrentStep()[(byte)(figureCoordinates.X + 2), (byte)(figureCoordinates.Y + 1)].GetChessPieceColor() != ChessPieceColor.White)
+                && table.GetCurrentStep()[(sbyte)(figureCoordinates.X + 2), (sbyte)(figureCoordinates.Y + 1)].GetChessPieceColor() != ChessPieceColor.White)
             {
-                validMoves.Add(new Coordinates((byte)(figureCoordinates.X+2), (byte)(figureCoordinates.Y+1)));
+                validMoves.Add(new Coordinates((sbyte)(figureCoordinates.X+2), (sbyte)(figureCoordinates.Y+1)));
             }
             if (figureCoordinates.X > 1
-                && table.GetCurrentStep()[(byte)(figureCoordinates.X - 2), (byte)(figureCoordinates.Y + 1)].GetChessPieceColor() != ChessPieceColor.White)
+                && table.GetCurrentStep()[(sbyte)(figureCoordinates.X - 2), (sbyte)(figureCoordinates.Y + 1)].GetChessPieceColor() != ChessPieceColor.White)
             {
-                validMoves.Add(new Coordinates((byte)(figureCoordinates.X-2), (byte)(figureCoordinates.Y+1)));
+                validMoves.Add(new Coordinates((sbyte)(figureCoordinates.X-2), (sbyte)(figureCoordinates.Y+1)));
             }
             if(figureCoordinates.Y < table.GetCurrentStep().GetYAxisLenght()-2)
             {
                 if (figureCoordinates.X < table.GetCurrentStep().GetXAxisLenght() - 1
-                    && table.GetCurrentStep()[(byte)(figureCoordinates.X + 1), (byte)(figureCoordinates.Y + 2)].GetChessPieceColor() != ChessPieceColor.White)
+                    && table.GetCurrentStep()[(sbyte)(figureCoordinates.X + 1), (sbyte)(figureCoordinates.Y + 2)].GetChessPieceColor() != ChessPieceColor.White)
                 {
-                    validMoves.Add(new Coordinates((byte)(figureCoordinates.X+1), (byte)(figureCoordinates.Y+2)));
+                    validMoves.Add(new Coordinates((sbyte)(figureCoordinates.X+1), (sbyte)(figureCoordinates.Y+2)));
                 }
                 if (figureCoordinates.X > 0
-                    && table.GetCurrentStep()[(byte)(figureCoordinates.X - 1), (byte)(figureCoordinates.Y + 2)].GetChessPieceColor() != ChessPieceColor.White)
+                    && table.GetCurrentStep()[(sbyte)(figureCoordinates.X - 1), (sbyte)(figureCoordinates.Y + 2)].GetChessPieceColor() != ChessPieceColor.White)
                 {
-                    validMoves.Add(new Coordinates((byte)(figureCoordinates.X-1), (byte)(figureCoordinates.Y+2)));
+                    validMoves.Add(new Coordinates((sbyte)(figureCoordinates.X-1), (sbyte)(figureCoordinates.Y+2)));
                 }
             }
         }
         if(figureCoordinates.Y > 0)
         {
             if (figureCoordinates.X < table.GetCurrentStep().GetXAxisLenght() - 2
-                && table.GetCurrentStep()[(byte)(figureCoordinates.X + 2), (byte)(figureCoordinates.Y - 1)].GetChessPieceColor() != ChessPieceColor.White)
+                && table.GetCurrentStep()[(sbyte)(figureCoordinates.X + 2), (sbyte)(figureCoordinates.Y - 1)].GetChessPieceColor() != ChessPieceColor.White)
             {
-                validMoves.Add(new Coordinates((byte)(figureCoordinates.X+2), (byte)(figureCoordinates.Y-1)));
+                validMoves.Add(new Coordinates((sbyte)(figureCoordinates.X+2), (sbyte)(figureCoordinates.Y-1)));
             }
             if (figureCoordinates.X > 1
-                && table.GetCurrentStep()[(byte)(figureCoordinates.X - 2), (byte)(figureCoordinates.Y - 1)].GetChessPieceColor() != ChessPieceColor.White)
+                && table.GetCurrentStep()[(sbyte)(figureCoordinates.X - 2), (sbyte)(figureCoordinates.Y - 1)].GetChessPieceColor() != ChessPieceColor.White)
             {
-                validMoves.Add(new Coordinates((byte)(figureCoordinates.X-2), (byte)(figureCoordinates.Y-1)));
+                validMoves.Add(new Coordinates((sbyte)(figureCoordinates.X-2), (sbyte)(figureCoordinates.Y-1)));
             }
             if(figureCoordinates.Y > 1)
             {
                 if (figureCoordinates.X < table.GetCurrentStep().GetXAxisLenght() - 1
-                    && table.GetCurrentStep()[(byte)(figureCoordinates.X + 1), (byte)(figureCoordinates.Y - 2)].GetChessPieceColor() != ChessPieceColor.White)
+                    && table.GetCurrentStep()[(sbyte)(figureCoordinates.X + 1), (sbyte)(figureCoordinates.Y - 2)].GetChessPieceColor() != ChessPieceColor.White)
                 {
-                    validMoves.Add(new Coordinates((byte)(figureCoordinates.X+1), (byte)(figureCoordinates.Y-2)));
+                    validMoves.Add(new Coordinates((sbyte)(figureCoordinates.X+1), (sbyte)(figureCoordinates.Y-2)));
                 }
 
                 if (figureCoordinates.X > 0
-                    && table.GetCurrentStep()[(byte)(figureCoordinates.X - 1), (byte)(figureCoordinates.Y - 2)].GetChessPieceColor() != ChessPieceColor.White)
+                    && table.GetCurrentStep()[(sbyte)(figureCoordinates.X - 1), (sbyte)(figureCoordinates.Y - 2)].GetChessPieceColor() != ChessPieceColor.White)
                 {
-                    validMoves.Add(new Coordinates((byte)(figureCoordinates.X-1), (byte)(figureCoordinates.Y-2)));
+                    validMoves.Add(new Coordinates((sbyte)(figureCoordinates.X-1), (sbyte)(figureCoordinates.Y-2)));
                 }
             }
         }

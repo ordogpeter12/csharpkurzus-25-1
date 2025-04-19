@@ -38,9 +38,9 @@ public class ConsoleView : IView
     {
         reverseOrderedPossibleMoves ??= [];
         Console.SetCursorPosition(0, 0);
-        for(byte i = 0; i < step.GetYAxisLenght(); i++)
+        for(sbyte i = 0; i < step.GetYAxisLenght(); i++)
         {
-            for(byte j = 0; j < step.GetXAxisLenght(); j++)
+            for(sbyte j = 0; j < step.GetXAxisLenght(); j++)
             {
                 SetConsoleBackgroundColor(j, i, playerCoordinates, reverseOrderedPossibleMoves);
                 Console.Write(step[j, i]);
