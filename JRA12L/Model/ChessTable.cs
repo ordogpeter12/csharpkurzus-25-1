@@ -31,7 +31,7 @@ public class ChessTable : ITable
 
     public List<Coordinates> GetValidMoves(Coordinates selectedFigure)
     {
-        _validMoves = GetCurrentStep()[selectedFigure.X, selectedFigure.Y].GetValidMoves(this, selectedFigure);
+        _validMoves = GetCurrentStep()[selectedFigure].GetValidMoves(this, selectedFigure);
         _validMoves.Sort((a, b) => b.CompareTo(a));
         return _validMoves;
     }

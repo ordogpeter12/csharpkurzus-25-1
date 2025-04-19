@@ -21,22 +21,20 @@ public abstract class Figure
         Coordinates localInspectedFigure = new Coordinates((byte)(inspectedFigure.X+1), (byte)(inspectedFigure.Y-1));
         while(localInspectedFigure.X < step.GetXAxisLenght() && localInspectedFigure.Y >= 0)
         {
-            if(step[localInspectedFigure.X, localInspectedFigure.Y] is not BlankTile)
+            if(step[localInspectedFigure] is not BlankTile)
             {
-                if (step[localInspectedFigure.X, localInspectedFigure.Y].GetChessPieceType() == ChessPieceType.King
-                    && step[localInspectedFigure.X, localInspectedFigure.Y].GetChessPieceColor() == pieceColor)
+                if (step[localInspectedFigure].GetChessPieceType() == ChessPieceType.King
+                    && step[localInspectedFigure].GetChessPieceColor() == pieceColor)
                 {
                     localInspectedFigure.X = (byte)(inspectedFigure.X - 1);
                     localInspectedFigure.Y = (byte)(inspectedFigure.Y + 1);
                     while(localInspectedFigure.X >= 0 && localInspectedFigure.Y < step.GetYAxisLenght())
                     {
-                        if (step[localInspectedFigure.X, localInspectedFigure.Y] is not BlankTile)
+                        if (step[localInspectedFigure] is not BlankTile)
                         {
-                            if ((step[localInspectedFigure.X, localInspectedFigure.Y].GetChessPieceType() ==
-                                 ChessPieceType.Queen
-                                 || step[localInspectedFigure.X, localInspectedFigure.Y].GetChessPieceType() ==
-                                 ChessPieceType.Bishop)
-                                && step[localInspectedFigure.X, localInspectedFigure.Y].GetChessPieceColor() != pieceColor)
+                            if ((step[localInspectedFigure].GetChessPieceType() == ChessPieceType.Queen
+                                 || step[localInspectedFigure].GetChessPieceType() == ChessPieceType.Bishop)
+                                && step[localInspectedFigure].GetChessPieceColor() != pieceColor)
                             {
                                 return true;
                             }
@@ -46,20 +44,18 @@ public abstract class Figure
                         localInspectedFigure.Y++;
                     }
                 }
-                else if ((step[localInspectedFigure.X, localInspectedFigure.Y].GetChessPieceType() ==
-                          ChessPieceType.Queen
-                          || step[localInspectedFigure.X, localInspectedFigure.Y].GetChessPieceType() ==
-                          ChessPieceType.Bishop)
-                         && step[localInspectedFigure.X, localInspectedFigure.Y].GetChessPieceColor() != pieceColor)
+                else if ((step[localInspectedFigure].GetChessPieceType() == ChessPieceType.Queen
+                          || step[localInspectedFigure].GetChessPieceType() == ChessPieceType.Bishop)
+                         && step[localInspectedFigure].GetChessPieceColor() != pieceColor)
                 {
                     localInspectedFigure.X = (byte)(inspectedFigure.X - 1);
                     localInspectedFigure.Y = (byte)(inspectedFigure.Y + 1);
                     while(localInspectedFigure.X >= 0 && localInspectedFigure.Y < step.GetYAxisLenght())
                     {
-                        if(step[localInspectedFigure.X, localInspectedFigure.Y] is not BlankTile)
+                        if(step[localInspectedFigure] is not BlankTile)
                         {
-                            if (step[localInspectedFigure.X, localInspectedFigure.Y].GetChessPieceType() == ChessPieceType.King
-                                && step[localInspectedFigure.X, localInspectedFigure.Y].GetChessPieceColor() == pieceColor)
+                            if (step[localInspectedFigure].GetChessPieceType() == ChessPieceType.King
+                                && step[localInspectedFigure].GetChessPieceColor() == pieceColor)
                             {
                                 return true;
                             }
