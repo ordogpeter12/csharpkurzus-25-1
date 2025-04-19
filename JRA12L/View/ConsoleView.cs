@@ -2,7 +2,6 @@ namespace JRA12L;
 
 public class ConsoleView : IView
 {
-    private const char DifferenceBetweenFigureAndCharRepresantation = '\u2633';
     private readonly ConsoleColor _defaultConsoleForegroundColor;
     private readonly ConsoleColor _defaultConsoleBackgroundColor;
     
@@ -24,6 +23,17 @@ public class ConsoleView : IView
         Console.CursorVisible = false;
         Console.Clear();
     }
+
+    public void Dispose()
+    {
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("Disposed!");
+        Console.ForegroundColor = _defaultConsoleForegroundColor;
+        Console.BackgroundColor = _defaultConsoleBackgroundColor;
+        Console.CursorVisible = true;
+        Console.Clear();
+    }
+
     public void Draw(IStep step, Coordinates playerCoordinates, List<Coordinates>? reverseOrderedPossibleMoves = null)
     {
         reverseOrderedPossibleMoves ??= [];

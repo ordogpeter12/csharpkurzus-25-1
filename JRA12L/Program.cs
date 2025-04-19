@@ -4,7 +4,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        Game game = new Game(new ConsoleUserInput(), new ConsoleView(), new ChessTable(new Step()));
+        using IView view = new ConsoleView();
+        Game game = new Game(new ConsoleUserInput(), view, new ChessTable(new Step()));
         game.StartGame();
     }
 }
