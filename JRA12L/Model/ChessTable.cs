@@ -4,10 +4,8 @@ public class ChessTable : ITable
 {
     private List<IStep> _steps;
     private int _displayIndex; //For rewinding steps
-    
-    public KingData WhiteKingData;
-    public KingData BlackKingData;
-    
+
+    private Coordinates _selectedFigure;
     private List<Coordinates> _validMoves;
     
     public ChessTable(List<IStep> steps)
@@ -31,8 +29,19 @@ public class ChessTable : ITable
 
     public List<Coordinates> GetValidMoves(Coordinates selectedFigure)
     {
+        _selectedFigure = selectedFigure;
         _validMoves = GetCurrentStep()[selectedFigure].GetValidMoves(this, selectedFigure);
         _validMoves.Sort((a, b) => b.CompareTo(a));
         return _validMoves;
+    }
+    public bool PerformMove(Coordinates destination)
+    {
+        if(_validMoves.Contains(destination))
+        {
+            _steps.Add(GetCurrentStep().GetNextStep(_selectedFigure, destination));
+            _displayIndex++;
+            return true;
+        }
+        return false;
     }
 }

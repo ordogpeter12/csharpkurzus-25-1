@@ -1,11 +1,9 @@
 namespace JRA12L;
 
-public class Coordinates(sbyte x, sbyte y) : IComparable<Coordinates>
+public struct Coordinates(sbyte x, sbyte y) : IComparable<Coordinates>
 {
     public sbyte X = x;
     public sbyte Y = y;
-
-    public Coordinates(Coordinates other) : this(other.X, other.Y) {}
     public int CompareTo(Coordinates other)
     {
         if(Y == other.Y)
@@ -13,6 +11,19 @@ public class Coordinates(sbyte x, sbyte y) : IComparable<Coordinates>
             return X-other.X;
         }
         return Y-other.Y;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if(obj is Coordinates coordinates)
+        {
+            return this.X == coordinates.X && coordinates.Y == this.Y;
+        }
+        return false;
+    }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(X, Y);
     }
 
     public override string ToString()

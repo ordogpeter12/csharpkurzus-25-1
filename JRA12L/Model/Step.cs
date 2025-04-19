@@ -2,17 +2,17 @@ namespace JRA12L;
 
 public sealed record Step : IStep
 {
-    private Figure[] TableValue { get; }
+    private Figure[] _tableValue;
     private const int XAxisLenght = 8;
     private const int YAxisLenght = 8;
     public Step(Step step)
     {
-        TableValue = step.TableValue;
+        _tableValue = step._tableValue;
     }
     public Step()
     {
         //chess starting position
-        TableValue =
+        _tableValue =
         [
             new BlackRook(), new BlackKnight(), new BlackBishop(), new BlackQueen(), new BlackKing(), new BlackBishop(), new BlackKnight(), new BlackRook(),
             new BlackPawn(), new BlackPawn(), new BlackPawn(), new BlackPawn(), new BlackPawn(), new BlackPawn(), new BlackPawn(), new BlackPawn(),
@@ -27,7 +27,15 @@ public sealed record Step : IStep
     int IStep.GetXAxisLenght() => XAxisLenght;
 
     int IStep.GetYAxisLenght() => YAxisLenght;
-    public Figure this[sbyte x, sbyte y] { get => TableValue[y*XAxisLenght+x]; }
+
+    public IStep GetNextStep(Coordinates movedPiece, Coordinates destination)
+    {
+        Step nextStep = new(this);
+        nextStep._tableValue[destination.Y*XAxisLenght+destination.X] = nextStep[movedPiece];
+        nextStep._tableValue[movedPiece.Y*XAxisLenght+movedPiece.X] = new BlankTile();
+        return nextStep;
+    }
+    public Figure this[sbyte x, sbyte y] { get => _tableValue[y*XAxisLenght+x]; }
     
-    public Figure this[Coordinates coordinates] { get => TableValue[coordinates.Y*XAxisLenght+coordinates.X]; }
+    public Figure this[Coordinates coordinates] { get => _tableValue[coordinates.Y*XAxisLenght+coordinates.X]; }
 }
