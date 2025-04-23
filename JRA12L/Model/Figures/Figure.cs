@@ -10,7 +10,7 @@ public abstract class Figure
     //It starts in one direction and checks if there is this Figure.
     //If it finds a king with a same color it starts to iterate in the other direction as well
     //to find a queen or bishop with different color.(Or vice versa)
-    //If it finds any other figure at some point the loop breaks and returns with false.
+    //If it finds any other figure at some point the loop breaks and returns with true.
     //The other "pinned" functions work similarly
     protected bool NotLinearIncreasingPinned(IStep step, Coordinates inspectedFigure, ChessPieceColor pieceColor)
     {
@@ -18,7 +18,7 @@ public abstract class Figure
         inspectedFigure.Y--;
         while(inspectedFigure.X < step.GetXAxisLenght() && inspectedFigure.Y >= 0)
         {
-            if(step[inspectedFigure] is not BlankTile)
+            if(step[inspectedFigure].GetChessPieceColor() != ChessPieceColor.Blank)
             {
                 if (step[inspectedFigure].GetChessPieceType() == ChessPieceType.King
                     && step[inspectedFigure].GetChessPieceColor() == pieceColor)
@@ -27,13 +27,13 @@ public abstract class Figure
                     inspectedFigure.Y = (sbyte)(inspectedFigure.Y + 1);
                     while(inspectedFigure.X >= 0 && inspectedFigure.Y < step.GetYAxisLenght())
                     {
-                        if (step[inspectedFigure] is not BlankTile)
+                        if (step[inspectedFigure].GetChessPieceColor() != ChessPieceColor.Blank)
                         {
                             if ((step[inspectedFigure].GetChessPieceType() == ChessPieceType.Queen
                                  || step[inspectedFigure].GetChessPieceType() == ChessPieceType.Bishop)
                                 && step[inspectedFigure].GetChessPieceColor() != pieceColor)
                             {
-                                return true;
+                                return false;
                             }
                             break;
                         }
@@ -49,12 +49,12 @@ public abstract class Figure
                     inspectedFigure.Y = (sbyte)(inspectedFigure.Y + 1);
                     while(inspectedFigure.X >= 0 && inspectedFigure.Y < step.GetYAxisLenght())
                     {
-                        if(step[inspectedFigure] is not BlankTile)
+                        if(step[inspectedFigure].GetChessPieceColor() != ChessPieceColor.Blank)
                         {
                             if (step[inspectedFigure].GetChessPieceType() == ChessPieceType.King
                                 && step[inspectedFigure].GetChessPieceColor() == pieceColor)
                             {
-                                return true;
+                                return false;
                             }
                             break;
                         }
@@ -67,30 +67,30 @@ public abstract class Figure
             inspectedFigure.X++;
             inspectedFigure.Y--;
         }
-        return false;
+        return true;
     }
     protected bool NotLinearDecreasingPinned(IStep step, Coordinates inspectedFigure, ChessPieceColor pieceColor)
     {
         inspectedFigure.X--;
         inspectedFigure.Y--;
-        while(inspectedFigure.X < step.GetXAxisLenght() && inspectedFigure.Y >= 0)
+        while(inspectedFigure is { X: >= 0, Y: >= 0 })
         {
-            if(step[inspectedFigure] is not BlankTile)
+            if(step[inspectedFigure].GetChessPieceColor() != ChessPieceColor.Blank)
             {
                 if (step[inspectedFigure].GetChessPieceType() == ChessPieceType.King
                     && step[inspectedFigure].GetChessPieceColor() == pieceColor)
                 {
                     inspectedFigure.X = (sbyte)(inspectedFigure.X + 1);
                     inspectedFigure.Y = (sbyte)(inspectedFigure.Y + 1);
-                    while(inspectedFigure.X >= 0 && inspectedFigure.Y < step.GetYAxisLenght())
+                    while(inspectedFigure.X < step.GetXAxisLenght() && inspectedFigure.Y < step.GetYAxisLenght())
                     {
-                        if (step[inspectedFigure] is not BlankTile)
+                        if (step[inspectedFigure].GetChessPieceColor() != ChessPieceColor.Blank)
                         {
                             if ((step[inspectedFigure].GetChessPieceType() == ChessPieceType.Queen
                                  || step[inspectedFigure].GetChessPieceType() == ChessPieceType.Bishop)
                                 && step[inspectedFigure].GetChessPieceColor() != pieceColor)
                             {
-                                return true;
+                                return false;
                             }
                             break;
                         }
@@ -104,14 +104,14 @@ public abstract class Figure
                 {
                     inspectedFigure.X = (sbyte)(inspectedFigure.X + 1);
                     inspectedFigure.Y = (sbyte)(inspectedFigure.Y + 1);
-                    while(inspectedFigure.X >= 0 && inspectedFigure.Y < step.GetYAxisLenght())
+                    while(inspectedFigure.X < step.GetXAxisLenght() && inspectedFigure.Y < step.GetYAxisLenght())
                     {
-                        if(step[inspectedFigure] is not BlankTile)
+                        if(step[inspectedFigure].GetChessPieceColor() != ChessPieceColor.Blank)
                         {
                             if (step[inspectedFigure].GetChessPieceType() == ChessPieceType.King
                                 && step[inspectedFigure].GetChessPieceColor() == pieceColor)
                             {
-                                return true;
+                                return false;
                             }
                             break;
                         }
@@ -124,13 +124,13 @@ public abstract class Figure
             inspectedFigure.X--;
             inspectedFigure.Y--;
         }
-        return false;
+        return true;
     }
     protected bool NotColumnPinned(IStep step, Coordinates inspectedFigure, ChessPieceColor pieceColor)
     {
         for(sbyte i = (sbyte)(inspectedFigure.Y-1); i >= 0; i--)
         {
-            if(step[inspectedFigure.X, i] is not BlankTile)
+            if(step[inspectedFigure.X, i].GetChessPieceColor() != ChessPieceColor.Blank)
             {
                 if((step[inspectedFigure.X, i].GetChessPieceType() == ChessPieceType.Queen
                      || step[inspectedFigure.X, i].GetChessPieceType() == ChessPieceType.Rook)
@@ -138,12 +138,12 @@ public abstract class Figure
                 {
                     for(sbyte j = (sbyte)(inspectedFigure.Y+1); j < step.GetYAxisLenght(); j++)
                     {
-                        if(step[inspectedFigure.X, j] is not BlankTile)
+                        if(step[inspectedFigure.X, j].GetChessPieceColor() != ChessPieceColor.Blank)
                         {
                             if (step[inspectedFigure.X, j].GetChessPieceType() == ChessPieceType.King
                                 && step[inspectedFigure.X, j].GetChessPieceColor() == pieceColor)
                             {
-                                return true;
+                                return false;
                             }
                             break;
                         }
@@ -154,13 +154,13 @@ public abstract class Figure
                 {
                     for(sbyte j = (sbyte)(inspectedFigure.Y+1); j < step.GetYAxisLenght(); j++)
                     {
-                        if(step[inspectedFigure.X, j] is not BlankTile)
+                        if(step[inspectedFigure.X, j].GetChessPieceColor() != ChessPieceColor.Blank)
                         {
                             if ((step[inspectedFigure.X, j].GetChessPieceType() == ChessPieceType.Queen
                                  || step[inspectedFigure.X, j].GetChessPieceType() == ChessPieceType.Rook)
                                 && step[inspectedFigure.X, j].GetChessPieceColor() != pieceColor)
                             {
-                                return true;
+                                return false;
                             }
                             break;
                         }
@@ -169,13 +169,13 @@ public abstract class Figure
                 break;
             }
         }
-        return false;
+        return true;
     }
     protected bool NotRowPinned(IStep step, Coordinates inspectedFigure, ChessPieceColor pieceColor)
     {
         for(sbyte i = (sbyte)(inspectedFigure.X-1); i >= 0; i--)
         {
-            if(step[i, inspectedFigure.Y] is not BlankTile)
+            if(step[i, inspectedFigure.Y].GetChessPieceColor() != ChessPieceColor.Blank)
             {
                 if((step[i, inspectedFigure.Y].GetChessPieceType() == ChessPieceType.Queen
                      || step[i, inspectedFigure.Y].GetChessPieceType() == ChessPieceType.Rook)
@@ -183,12 +183,12 @@ public abstract class Figure
                 {
                     for(sbyte j = (sbyte)(inspectedFigure.Y+1); j < step.GetYAxisLenght(); j++)
                     {
-                        if(step[j, inspectedFigure.Y] is not BlankTile)
+                        if(step[j, inspectedFigure.Y].GetChessPieceColor() != ChessPieceColor.Blank)
                         {
                             if (step[j, inspectedFigure.Y].GetChessPieceType() == ChessPieceType.King
                                 && step[j, inspectedFigure.Y].GetChessPieceColor() == pieceColor)
                             {
-                                return true;
+                                return false;
                             }
                             break;
                         }
@@ -199,13 +199,13 @@ public abstract class Figure
                 {
                     for(sbyte j = (sbyte)(inspectedFigure.Y+1); j < step.GetYAxisLenght(); j++)
                     {
-                        if(step[j, inspectedFigure.Y] is not BlankTile)
+                        if(step[j, inspectedFigure.Y].GetChessPieceColor() != ChessPieceColor.Blank)
                         {
                             if ((step[j, inspectedFigure.Y].GetChessPieceType() == ChessPieceType.Queen
                                  || step[j, inspectedFigure.Y].GetChessPieceType() == ChessPieceType.Rook)
                                 && step[j, inspectedFigure.Y].GetChessPieceColor() != pieceColor)
                             {
-                                return true;
+                                return false;
                             }
                             break;
                         }
@@ -214,6 +214,6 @@ public abstract class Figure
                 break;
             }
         }
-        return false;
+        return true;
     }
 }
