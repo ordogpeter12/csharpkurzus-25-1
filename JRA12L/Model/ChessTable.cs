@@ -25,7 +25,7 @@ public class ChessTable : ITable
         this._displayIndex = 0;
     }
     public IStep GetCurrentStep() => _steps[_displayIndex];
-    public IStep GetPreviousStep() => _steps[_displayIndex - 1];
+    public IStep? GetPreviousStep() => _displayIndex != 0 ? _steps[_displayIndex - 1] : null;
 
     public List<Coordinates> GetValidMoves(Coordinates selectedFigure)
     {

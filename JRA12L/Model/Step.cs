@@ -7,7 +7,7 @@ public sealed record Step : IStep
     private const int YAxisLenght = 8;
     public Step(Step step)
     {
-        _tableValue = step._tableValue;
+        _tableValue = step._tableValue.Clone() as Figure[];
     }
     public Step()
     {
