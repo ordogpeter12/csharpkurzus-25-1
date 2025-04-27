@@ -7,9 +7,18 @@ public sealed record Step : IStep
     private readonly Figure[] _tableValue;
     private const int XAxisLenght = 8;
     private const int YAxisLenght = 8;
+    public bool WhiteShortCastle { get; } = true;
+    public bool WhiteLongCastle { get; } = true;
+    public bool BlackShortCastle { get; } = true;
+    public bool BlackLongCastle { get; } = true;
+
     public Step(Step step)
     {
         _tableValue = step._tableValue.Clone() as Figure[];
+        WhiteShortCastle = step.WhiteShortCastle;
+        WhiteLongCastle = step.WhiteLongCastle;
+        BlackShortCastle = step.BlackShortCastle;
+        BlackLongCastle = step.BlackLongCastle;
     }
     public Step()
     {
@@ -87,18 +96,20 @@ public sealed record Step : IStep
     public Figure this[Coordinates coordinates] { get => _tableValue[coordinates.Y*XAxisLenght+coordinates.X]; }
     private Coordinates? CoveredByWhitePawn(Coordinates inspectedTile)
     {
-        if(inspectedTile.Y+1 < XAxisLenght)
+        if(inspectedTile.Y+1 < YAxisLenght)
         {
-            Coordinates suspectedPawnLeft = new((sbyte)(inspectedTile.Y+1), (sbyte)(inspectedTile.X-1));
-            Coordinates suspectedPawnRight = new((sbyte)(inspectedTile.Y+1), (sbyte)(inspectedTile.X+1));
-            if(this[suspectedPawnLeft].GetChessPieceColor() == ChessPieceColor.White
+            Coordinates suspectedPawnLeft = new((sbyte)(inspectedTile.X-1), (sbyte)(inspectedTile.Y+1));
+            Coordinates suspectedPawnRight = new((sbyte)(inspectedTile.X+1), (sbyte)(inspectedTile.Y+1));
+            if(suspectedPawnLeft.X >= 0 && this[suspectedPawnLeft].GetChessPieceColor() == ChessPieceColor.White
                 && this[suspectedPawnLeft].GetChessPieceType() == ChessPieceType.Pawn)
             {
                 return suspectedPawnLeft;
             }
-            if(this[suspectedPawnRight].GetChessPieceColor() == ChessPieceColor.White 
+            if(suspectedPawnRight.X < XAxisLenght
+               && this[suspectedPawnRight].GetChessPieceColor() == ChessPieceColor.White 
                 && this[suspectedPawnRight].GetChessPieceType() == ChessPieceType.Pawn)
             {
+                Console.WriteLine(inspectedTile);
                 return suspectedPawnRight;
             }
         }
@@ -108,14 +119,15 @@ public sealed record Step : IStep
     {
         if(inspectedTile.Y-1 > 0)
         {
-            Coordinates suspectedPawnLeft = new((sbyte)(inspectedTile.Y-1), (sbyte)(inspectedTile.X-1));
-            Coordinates suspectedPawnRight = new((sbyte)(inspectedTile.Y-1), (sbyte)(inspectedTile.X+1));
-            if(this[suspectedPawnLeft].GetChessPieceColor() == ChessPieceColor.Black
+            Coordinates suspectedPawnLeft = new((sbyte)(inspectedTile.X+1), (sbyte)(inspectedTile.Y-1));
+            Coordinates suspectedPawnRight = new((sbyte)(inspectedTile.X-1), (sbyte)(inspectedTile.Y+1));
+            if(suspectedPawnLeft.X >= 0 && this[suspectedPawnLeft].GetChessPieceColor() == ChessPieceColor.Black
                 && this[suspectedPawnLeft].GetChessPieceType() == ChessPieceType.Pawn)
             {
                 return suspectedPawnLeft;
             }
-            if(this[suspectedPawnRight].GetChessPieceColor() == ChessPieceColor.Black 
+            if(suspectedPawnRight.X < XAxisLenght
+                && this[suspectedPawnRight].GetChessPieceColor() == ChessPieceColor.Black 
                        && this[suspectedPawnRight].GetChessPieceType() == ChessPieceType.Pawn)
             {
                 return suspectedPawnRight;
