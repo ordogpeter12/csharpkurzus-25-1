@@ -125,9 +125,14 @@ public sealed record Step : IStep
     }
     private bool IsKingOnNeighboringTile(Coordinates inspectedTile, ChessPieceColor kingColor)
     {
-        for(sbyte x = (sbyte)(inspectedTile.X-1); x <= inspectedTile.X+1; x++)
+        Coordinates loopStartingCoordinates = new(inspectedTile.X == 0 ? inspectedTile.X: (sbyte)(inspectedTile.X-1), 
+            inspectedTile.Y == 0 ? inspectedTile.Y: (sbyte)(inspectedTile.Y-1));
+        Coordinates loopEndingCoordinates = new(
+            inspectedTile.X < XAxisLenght-1 ? (sbyte)(inspectedTile.X+1) : inspectedTile.X,
+            inspectedTile.Y < YAxisLenght-1 ? (sbyte)(inspectedTile.Y+1) : inspectedTile.Y);
+        for(sbyte x = loopStartingCoordinates.X; x <= loopEndingCoordinates.X; x++)
         {
-            for(sbyte y = (sbyte)(inspectedTile.Y-1); y <= inspectedTile.Y+1; y++)
+            for(sbyte y = loopStartingCoordinates.Y; y <= loopEndingCoordinates.Y; y++)
             {
                 if(this[x, y].GetChessPieceColor() != kingColor
                     && this[x, y].GetChessPieceType() == ChessPieceType.King)
