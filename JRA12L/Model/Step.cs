@@ -1,3 +1,5 @@
+using JRA12L.Factories;
+
 namespace JRA12L;
 
 public sealed record Step : IStep
@@ -38,21 +40,28 @@ public sealed record Step : IStep
 
     int IStep.GetYAxisLenght() => YAxisLenght;
 
-    public IStep GetNextStep(Coordinates movedPiece, Coordinates destination)
+    public IStep GetNextStep(Coordinates movedPiece, Coordinates destination, Action<string[], int> promotionMenu, IUserInput userInput)
     {
         Step nextStep = new(this);
         nextStep._tableValue[destination.Y*XAxisLenght+destination.X] = nextStep[movedPiece];
         nextStep._tableValue[movedPiece.Y*XAxisLenght+movedPiece.X] = new BlankTile();
-        CleanUpAfterSpecialMoves(nextStep, movedPiece, destination);
+        CleanUpAfterSpecialMoves(nextStep, movedPiece, destination, promotionMenu, userInput);
         return nextStep;
     }
-    private void CleanUpAfterSpecialMoves(Step nextStep, Coordinates movedPiece, Coordinates destination)
+    private void CleanUpAfterSpecialMoves(Step nextStep, Coordinates movedPiece, Coordinates destination, Action<string[], int> promotionMenu, IUserInput userInput)
     {
         //en passant clean up (not color dependent)
         if (this[movedPiece].GetChessPieceType() == ChessPieceType.Pawn
             && movedPiece.Y != destination.Y && this[destination].GetChessPieceColor() == ChessPieceColor.Blank)
         {
             nextStep._tableValue[movedPiece.Y*XAxisLenght+destination.X] = new BlankTile();
+        }
+        //promotion
+        if (this[movedPiece].GetChessPieceType() == ChessPieceType.Pawn
+            && destination.Y == 0 || destination.Y == YAxisLenght - 1)
+        {
+            nextStep._tableValue[destination.Y*XAxisLenght+destination.X] = 
+                PromotionChoice(promotionMenu, userInput, this[movedPiece].GetChessPieceColor());
         }
         //king move
         if(this[movedPiece].GetChessPieceType() == ChessPieceType.King)
@@ -107,6 +116,45 @@ public sealed record Step : IStep
                 }
             }
         }
+    }
+
+    private Figure PromotionChoice(Action<string[], int> promotionMenu, IUserInput userInput, ChessPieceColor color)
+    {
+        bool selected = false;
+        int index = 0;
+        string[] figures = ["Queen", "Rook", "Bishop", "Knight"];
+        ChessPieceType[] figureTypesInternal = [ChessPieceType.Queen, ChessPieceType.Rook, ChessPieceType.Bishop, ChessPieceType.Knight];
+        while(!selected)
+        {
+            promotionMenu(figures, index);
+            switch((IUserInput.UserInput)userInput.GetUserInput())
+            {
+                case IUserInput.UserInput.Left:
+                    if(index != 0)
+                    {
+                        index--;
+                    }
+                    else
+                    {
+                        index = figures.Length-1;
+                    }
+                    break;
+                case IUserInput.UserInput.Right:
+                    if(index != figures.Length-1)
+                    {
+                        index++;
+                    }
+                    else
+                    {
+                        index = 0;
+                    }
+                    break;
+                case IUserInput.UserInput.Select:
+                    selected = true;
+                    break;
+            }
+        }
+        return new BaseChessSimpleFigureFactory().GetFigure(color, figureTypesInternal[index]);
     }
 
     public bool IsKingSafe(Coordinates inspectedTile, ChessPieceColor kingColor)

@@ -2,5 +2,6 @@ namespace JRA12L;
 
 public interface IView : IDisposable
 {
-    public void Draw(IStep step, Coordinates playerCoordinates, List<Coordinates>? validMoves = null);
+    void Draw(IStep step, Coordinates playerCoordinates, List<Coordinates>? validMoves = null);
+    void DrawPromotionMenu(string[] figureStrings, int currentIndex);
 }

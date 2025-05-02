@@ -27,7 +27,6 @@ public class ConsoleView : IView
     public void Dispose()
     {
         Console.ForegroundColor = ConsoleColor.White;
-        Console.Write("Disposed!");
         Console.ForegroundColor = _defaultConsoleForegroundColor;
         Console.BackgroundColor = _defaultConsoleBackgroundColor;
         Console.CursorVisible = true;
@@ -36,6 +35,10 @@ public class ConsoleView : IView
 
     public void Draw(IStep step, Coordinates playerCoordinates, List<Coordinates>? reverseOrderedPossibleMoves = null)
     {
+        if(Console.CursorTop != _chessTableBottom)
+        {
+            Console.Clear();
+        }
         reverseOrderedPossibleMoves ??= [];
         Console.SetCursorPosition(0, 0);
         for(sbyte i = 0; i < step.GetYAxisLenght(); i++)
@@ -49,6 +52,7 @@ public class ConsoleView : IView
             Console.BackgroundColor = GameBackgroundColor;
             Console.Write('\n');
         }
+        _chessTableBottom = Console.CursorTop;
     }
     private static void SetConsoleBackgroundColor(int xCoordinate, int yCoordinate, Coordinates playerCoordinates, List<Coordinates> possibleMoves)
     {
@@ -68,5 +72,29 @@ public class ConsoleView : IView
         {
             Console.BackgroundColor = (xCoordinate+yCoordinate)%2 == 0 ? WhiteTileColor : BlackTileColor;
         }
+    }
+
+    private int _chessTableBottom;
+    public void DrawPromotionMenu(string[] figureStrings, int currentIndex)
+    {
+        Console.SetCursorPosition(0, _chessTableBottom);
+        for(int i = 0; i < figureStrings.Length; i++)
+        {
+            if(i != currentIndex)
+            {
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" "+figureStrings[i]+" ");
+            }
+            else
+            {
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.Write(" "+figureStrings[i]+" ");
+            }
+        }
+        Console.WriteLine();
+        Console.BackgroundColor = GameBackgroundColor;
+        Console.ForegroundColor = GameFigureColor;
     }
 }

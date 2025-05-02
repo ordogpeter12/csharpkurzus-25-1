@@ -10,7 +10,7 @@ public interface IStep
     bool BlackLongCastle { get; }
     Figure this[sbyte x, sbyte y] { get; }
     Figure this[Coordinates coordinates] { get; }
-    IStep GetNextStep(Coordinates movedPiece, Coordinates destination);
+    IStep GetNextStep(Coordinates movedPiece, Coordinates destination, Action<string[], int> promotionMenu, IUserInput userInput);
     bool IsKingSafe(Coordinates inspectedTile, ChessPieceColor kingColor);
     List<Coordinates> GetCheckingFigures(Coordinates inspectedTile, ChessPieceColor kingColor);
 }

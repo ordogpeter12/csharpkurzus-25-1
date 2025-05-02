@@ -89,7 +89,7 @@ public class Game
                         _playerPosition.X++;
                     break;
                 case IUserInput.UserInput.Select:
-                    if(_chessTable.PerformMove(_playerPosition))
+                    if(_chessTable.PerformMove(_playerPosition, _view.DrawPromotionMenu, _userInput))
                         figureSelected = false;
                     break;
                 case IUserInput.UserInput.Exit:

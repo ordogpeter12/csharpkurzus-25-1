@@ -34,11 +34,11 @@ public class ChessTable : ITable
         _validMoves.Sort((a, b) => b.CompareTo(a));
         return _validMoves;
     }
-    public bool PerformMove(Coordinates destination)
+    public bool PerformMove(Coordinates destination, Action<string[], int> promotionMenu, IUserInput userInput)
     {
         if(_validMoves.Contains(destination))
         {
-            _steps.Add(GetCurrentStep().GetNextStep(_selectedFigure, destination));
+            _steps.Add(GetCurrentStep().GetNextStep(_selectedFigure, destination, promotionMenu, userInput));
             _displayIndex++;
             return true;
         }
