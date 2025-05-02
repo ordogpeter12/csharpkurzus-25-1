@@ -1,4 +1,5 @@
 using JRA12L.Core;
+using JRA12L.Core.ChessGame;
 using JRA12L.Model;
 
 namespace JRA12L.View;

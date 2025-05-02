@@ -5,7 +5,7 @@ using JRA12L.Model.Figures.Black;
 using JRA12L.Model.Figures.White;
 using JRA12L.View;
 
-namespace JRA12L.Core;
+namespace JRA12L.Core.ChessGame;
 
 public sealed record Step : IStep
 {
@@ -26,6 +26,17 @@ public sealed record Step : IStep
         BlackShortCastle = step.BlackShortCastle;
         BlackLongCastle = step.BlackLongCastle;
     }
+
+    public Step(Figure[] tableValue, bool whiteShortCastle, bool whiteLongCastle, bool blackShortCastle,
+        bool blackLongCastle, ChessPieceColor whoseTurn)
+    {
+        _tableValue = tableValue;
+        WhiteShortCastle = whiteShortCastle;
+        WhiteLongCastle = whiteLongCastle;
+        BlackShortCastle = blackShortCastle;
+        BlackLongCastle = blackLongCastle;
+        WhoseTurn = whoseTurn;
+    }
     public Step()
     {
         //chess starting position
@@ -45,6 +56,18 @@ public sealed record Step : IStep
 
     int IStep.GetYAxisLenght() => YAxisLenght;
 
+    public StepSavableInformation GetSavableInformation()
+    {
+        return new StepSavableInformation
+        {
+            TableValue = this._tableValue,
+            WhiteShortCastle = this.WhiteShortCastle,
+            WhiteLongCastle = this.WhiteLongCastle,
+            BlackShortCastle = this.BlackShortCastle,
+            BlackLongCastle = this.BlackLongCastle,
+            WhoseTurn = this.WhoseTurn,
+        };
+    }
     private Coordinates GetKingPosition(ChessPieceColor color)
     {
         for(int i = 0; i < _tableValue.Length; i++)

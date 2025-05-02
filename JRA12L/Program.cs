@@ -1,4 +1,5 @@
 ﻿using JRA12L.Core;
+using JRA12L.Core.Menu;
 using JRA12L.View;
 
 namespace JRA12L;
@@ -7,8 +8,8 @@ class Program
 {
     static void Main(string[] args)
     {
-        using IView view = new ConsoleView();
-        Game game = new Game(new ConsoleUserInput(), view, new ChessTable(new Step()));
-        game.StartGame();
+        using IMenuView menuView = new ConsoleMenu();
+        Menu menu = new Menu(new ConsoleUserInput(), menuView);
+        menu.StartApp();
     }
 }

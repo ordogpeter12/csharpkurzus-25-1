@@ -1,4 +1,5 @@
 using JRA12L.Core;
+using JRA12L.Core.ChessGame;
 using JRA12L.Model;
 
 namespace JRA12L.View;
@@ -30,7 +31,6 @@ public class ConsoleView : IView
 
     public void Dispose()
     {
-        Console.ForegroundColor = ConsoleColor.White;
         Console.ForegroundColor = _defaultConsoleForegroundColor;
         Console.BackgroundColor = _defaultConsoleBackgroundColor;
         Console.CursorVisible = true;

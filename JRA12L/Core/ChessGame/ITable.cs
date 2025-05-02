@@ -1,7 +1,7 @@
 using JRA12L.Model;
 using JRA12L.View;
 
-namespace JRA12L.Core;
+namespace JRA12L.Core.ChessGame;
 
 public interface ITable
 {

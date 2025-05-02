@@ -1,4 +1,5 @@
 using JRA12L.Core;
+using JRA12L.Core.ChessGame;
 
 namespace JRA12L.Model.Figures.Black;
 
