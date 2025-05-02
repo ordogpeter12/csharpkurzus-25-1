@@ -1,4 +1,6 @@
-namespace JRA12L;
+using JRA12L.Core;
+
+namespace JRA12L.Model.Figures.White;
 
 public class WhiteBishop : Figure
 {

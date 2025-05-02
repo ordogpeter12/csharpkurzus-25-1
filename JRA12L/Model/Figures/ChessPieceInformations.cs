@@ -1,4 +1,4 @@
-namespace JRA12L;
+namespace JRA12L.Model.Figures;
 
 public enum ChessPieceColor : sbyte
 {

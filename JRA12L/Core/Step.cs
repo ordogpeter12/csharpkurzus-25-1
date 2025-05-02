@@ -1,6 +1,11 @@
 using JRA12L.Factories;
+using JRA12L.Model;
+using JRA12L.Model.Figures;
+using JRA12L.Model.Figures.Black;
+using JRA12L.Model.Figures.White;
+using JRA12L.View;
 
-namespace JRA12L;
+namespace JRA12L.Core;
 
 public sealed record Step : IStep
 {

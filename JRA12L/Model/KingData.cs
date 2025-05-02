@@ -1,4 +1,4 @@
-namespace JRA12L;
+namespace JRA12L.Model;
 
 public class KingData(Coordinates coordinates, bool isShortCastleAvailable, bool isLongCastleAvailable)
 {

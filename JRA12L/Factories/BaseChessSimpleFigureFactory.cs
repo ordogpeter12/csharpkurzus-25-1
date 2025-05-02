@@ -1,3 +1,7 @@
+using JRA12L.Model.Figures;
+using JRA12L.Model.Figures.Black;
+using JRA12L.Model.Figures.White;
+
 namespace JRA12L.Factories;
 
 public class BaseChessSimpleFigureFactory

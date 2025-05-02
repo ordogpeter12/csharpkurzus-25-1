@@ -1,4 +1,4 @@
-namespace JRA12L;
+namespace JRA12L.View;
 
 public interface IUserInput
 {

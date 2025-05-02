@@ -1,4 +1,4 @@
-namespace JRA12L;
+namespace JRA12L.Model;
 
 public struct Coordinates(sbyte x, sbyte y) : IComparable<Coordinates>
 {

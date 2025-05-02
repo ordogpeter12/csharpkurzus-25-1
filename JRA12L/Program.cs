@@ -1,4 +1,7 @@
-﻿namespace JRA12L;
+﻿using JRA12L.Core;
+using JRA12L.View;
+
+namespace JRA12L;
 
 class Program
 {

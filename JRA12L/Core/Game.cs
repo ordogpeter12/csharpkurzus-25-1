@@ -1,4 +1,7 @@
-namespace JRA12L;
+using JRA12L.Model;
+using JRA12L.View;
+
+namespace JRA12L.Core;
 
 public class Game
 {

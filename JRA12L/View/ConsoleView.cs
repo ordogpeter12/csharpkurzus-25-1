@@ -1,4 +1,7 @@
-namespace JRA12L;
+using JRA12L.Core;
+using JRA12L.Model;
+
+namespace JRA12L.View;
 
 public class ConsoleView : IView
 {
