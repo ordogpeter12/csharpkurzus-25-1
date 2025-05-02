@@ -7,6 +7,7 @@ public class ChessTable : ITable
 
     private Coordinates _selectedFigure;
     private List<Coordinates> _validMoves;
+    private List<Coordinates> _checks = [];
     
     public ChessTable(List<IStep> steps)
     {
@@ -16,7 +17,6 @@ public class ChessTable : ITable
         }
         this._steps = steps;
         this._displayIndex = steps.Count-1;
-        //TODO KingData
     }
 
     public ChessTable(IStep step)
@@ -27,10 +27,18 @@ public class ChessTable : ITable
     public IStep GetCurrentStep() => _steps[_displayIndex];
     public IStep? GetPreviousStep() => _displayIndex != 0 ? _steps[_displayIndex - 1] : null;
 
+    public List<Coordinates> GetChecks()
+    {
+        return _checks;
+    }
     public List<Coordinates> GetValidMoves(Coordinates selectedFigure)
     {
         _selectedFigure = selectedFigure;
-        _validMoves = GetCurrentStep()[selectedFigure].GetValidMoves(this, selectedFigure);
+        _validMoves = [];
+        if(GetCurrentStep()[selectedFigure].GetChessPieceColor() == GetCurrentStep().WhoseTurn)
+        {
+            _validMoves = GetCurrentStep()[selectedFigure].GetValidMoves(this, selectedFigure);
+        }
         _validMoves.Sort((a, b) => b.CompareTo(a));
         return _validMoves;
     }
@@ -40,6 +48,7 @@ public class ChessTable : ITable
         {
             _steps.Add(GetCurrentStep().GetNextStep(_selectedFigure, destination, promotionMenu, userInput));
             _displayIndex++;
+            _checks = GetCurrentStep().GetChecks();
             return true;
         }
         return false;

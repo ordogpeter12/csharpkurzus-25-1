@@ -11,7 +11,7 @@ public sealed record Step : IStep
     public bool WhiteLongCastle { get; private set; } = true;
     public bool BlackShortCastle { get; private set; } = true;
     public bool BlackLongCastle { get; private set; } = true;
-    public bool WhoseTurn { get; } = true; //true if white's
+    public ChessPieceColor WhoseTurn { get; private set; } = ChessPieceColor.White; //true if white's
 
     public Step(Step step)
     {
@@ -40,12 +40,38 @@ public sealed record Step : IStep
 
     int IStep.GetYAxisLenght() => YAxisLenght;
 
+    private Coordinates GetKingPosition(ChessPieceColor color)
+    {
+        for(int i = 0; i < _tableValue.Length; i++)
+        {
+            if(_tableValue[i].GetChessPieceType() == ChessPieceType.King
+                && _tableValue[i].GetChessPieceColor() == color)
+            {
+                return new Coordinates((sbyte)(i%XAxisLenght), (sbyte)(i/XAxisLenght));
+            }
+        }
+        throw new InvalidOperationException("There is no king");
+    }
+
+    //last list element is the king
+    public List<Coordinates> GetChecks()
+    {
+        ChessPieceColor currentKingColor = WhoseTurn;
+        Coordinates kingCoordinates = GetKingPosition(currentKingColor);
+        List<Coordinates> checkingFigures = GetCheckingFigures(kingCoordinates, currentKingColor);
+        if(checkingFigures.Count != 0)
+        {
+            checkingFigures.Add(kingCoordinates);
+        }
+        return checkingFigures;
+    }
     public IStep GetNextStep(Coordinates movedPiece, Coordinates destination, Action<string[], int> promotionMenu, IUserInput userInput)
     {
         Step nextStep = new(this);
         nextStep._tableValue[destination.Y*XAxisLenght+destination.X] = nextStep[movedPiece];
         nextStep._tableValue[movedPiece.Y*XAxisLenght+movedPiece.X] = new BlankTile();
         CleanUpAfterSpecialMoves(nextStep, movedPiece, destination, promotionMenu, userInput);
+        nextStep.WhoseTurn = this.WhoseTurn == ChessPieceColor.White ? ChessPieceColor.Black : ChessPieceColor.White;
         return nextStep;
     }
     private void CleanUpAfterSpecialMoves(Step nextStep, Coordinates movedPiece, Coordinates destination, Action<string[], int> promotionMenu, IUserInput userInput)
@@ -272,7 +298,7 @@ public sealed record Step : IStep
         sbyte y = (sbyte)(inspectedTile.Y-1);
         while(x >= 0 && y >= 0)
         {
-            if(this[x, y].GetChessPieceColor() == ChessPieceColor.Blank)
+            if(this[x, y].GetChessPieceColor() != ChessPieceColor.Blank)
             {
                 if (this[x, y].GetChessPieceColor() != kingColor
                     && (this[x, y].GetChessPieceType() == ChessPieceType.Bishop 
@@ -290,7 +316,7 @@ public sealed record Step : IStep
         y = (sbyte)(inspectedTile.Y-1);
         while(x < XAxisLenght && y >= 0)
         {
-            if(this[x, y].GetChessPieceColor() == ChessPieceColor.Blank)
+            if(this[x, y].GetChessPieceColor() != ChessPieceColor.Blank)
             {
                 if (this[x, y].GetChessPieceColor() != kingColor
                     && (this[x, y].GetChessPieceType() == ChessPieceType.Bishop 
@@ -308,7 +334,7 @@ public sealed record Step : IStep
         y = (sbyte)(inspectedTile.Y+1);
         while(x >= 0 && y < YAxisLenght)
         {
-            if(this[x, y].GetChessPieceColor() == ChessPieceColor.Blank)
+            if(this[x, y].GetChessPieceColor() != ChessPieceColor.Blank)
             {
                 if (this[x, y].GetChessPieceColor() != kingColor
                     && (this[x, y].GetChessPieceType() == ChessPieceType.Bishop 
@@ -326,7 +352,7 @@ public sealed record Step : IStep
         y = (sbyte)(inspectedTile.Y+1);
         while(x < XAxisLenght && y < YAxisLenght)
         {
-            if(this[x, y].GetChessPieceColor() == ChessPieceColor.Blank)
+            if(this[x, y].GetChessPieceColor() != ChessPieceColor.Blank)
             {
                 if(this[x, y].GetChessPieceColor() != kingColor
                     && (this[x, y].GetChessPieceType() == ChessPieceType.Bishop 
@@ -399,15 +425,18 @@ public sealed record Step : IStep
     }
     private Coordinates? CoveredByKnight(Coordinates inspectedTile, ChessPieceColor kingColor)
     {
-        List<Coordinates> possibleKnights = new WhiteKnight().GetValidMoves(new ChessTable(this), inspectedTile);
+        List<Coordinates> possibleKnights = kingColor == ChessPieceColor.White ?
+            new WhiteKnight().GetValidMoves(new ChessTable(this), inspectedTile): new BlackKnight().GetValidMoves(new ChessTable(this), inspectedTile);
         foreach(var possibleKnight in possibleKnights)
         {
+            Console.WriteLine(possibleKnight);
             if (this[possibleKnight].GetChessPieceColor() != kingColor
                 && this[possibleKnight].GetChessPieceType() == ChessPieceType.Knight)
             {
                 return possibleKnight;
             }
         }
+        Console.ReadKey();
         return null;
     }
 }

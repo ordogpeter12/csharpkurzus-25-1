@@ -21,7 +21,7 @@ public class Game
     {
         while(!_gameOver)
         {
-            _view.Draw(_chessTable.GetCurrentStep(), _playerPosition);
+            _view.Draw(_chessTable.GetCurrentStep(), _playerPosition, [.._chessTable.GetChecks()]);
             switch((IUserInput.UserInput)_userInput.GetUserInput())
             {
                 case IUserInput.UserInput.Up:
@@ -69,7 +69,7 @@ public class Game
         bool figureSelected = true;
         while(figureSelected)
         {
-            _view.Draw(_chessTable.GetCurrentStep(), _playerPosition, [..validMoves]);
+            _view.Draw(_chessTable.GetCurrentStep(), _playerPosition, [.._chessTable.GetChecks()], [..validMoves]);
             switch((IUserInput.UserInput)_userInput.GetUserInput())
             {
                 case IUserInput.UserInput.Up:

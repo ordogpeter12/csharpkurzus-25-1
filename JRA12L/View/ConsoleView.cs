@@ -12,6 +12,7 @@ public class ConsoleView : IView
     private const ConsoleColor WhiteTileColor = ConsoleColor.White;
     private const ConsoleColor PlayerLocationColor = ConsoleColor.DarkMagenta;
     private const ConsoleColor PossibleMoveColor = ConsoleColor.DarkGreen;
+    private const ConsoleColor CheckColor = ConsoleColor.Red;
 
     public ConsoleView()
     {
@@ -33,7 +34,8 @@ public class ConsoleView : IView
         Console.Clear();
     }
 
-    public void Draw(IStep step, Coordinates playerCoordinates, List<Coordinates>? reverseOrderedPossibleMoves = null)
+    public void Draw(IStep step, Coordinates playerCoordinates, 
+        List<Coordinates> checks, List<Coordinates>? reverseOrderedPossibleMoves = null)
     {
         if(Console.CursorTop != _chessTableBottom)
         {
@@ -45,7 +47,7 @@ public class ConsoleView : IView
         {
             for(sbyte j = 0; j < step.GetXAxisLenght(); j++)
             {
-                SetConsoleBackgroundColor(j, i, playerCoordinates, reverseOrderedPossibleMoves);
+                SetConsoleBackgroundColor(j, i, playerCoordinates, checks, reverseOrderedPossibleMoves);
                 Console.Write(step[j, i]);
                 Console.Out.Flush();
             }
@@ -54,7 +56,8 @@ public class ConsoleView : IView
         }
         _chessTableBottom = Console.CursorTop;
     }
-    private static void SetConsoleBackgroundColor(int xCoordinate, int yCoordinate, Coordinates playerCoordinates, List<Coordinates> possibleMoves)
+    private static void SetConsoleBackgroundColor(int xCoordinate, int yCoordinate, Coordinates playerCoordinates, 
+        List<Coordinates> checks, List<Coordinates> possibleMoves)
     {
         if(playerCoordinates.X == xCoordinate && playerCoordinates.Y == yCoordinate)
         {
@@ -62,11 +65,18 @@ public class ConsoleView : IView
             //Needed to always clear passed Coordinates
             if(possibleMoves.Count > 0 && playerCoordinates.X == possibleMoves.LastOrDefault().X && playerCoordinates.Y == possibleMoves.LastOrDefault().Y)
                 possibleMoves.RemoveAt(possibleMoves.Count-1);
+            if(checks.Count > 0 && playerCoordinates.X == checks.LastOrDefault().X && playerCoordinates.Y == checks.LastOrDefault().Y)
+                checks.RemoveAt(checks.Count-1);
         }
         else if(possibleMoves.Count > 0 && possibleMoves.LastOrDefault().X == xCoordinate && possibleMoves.LastOrDefault().Y == yCoordinate)
         {
             possibleMoves.RemoveAt(possibleMoves.Count-1);
             Console.BackgroundColor = PossibleMoveColor;
+        }
+        else if(checks.Count > 0 && checks.LastOrDefault().X == xCoordinate && checks.LastOrDefault().Y == yCoordinate)
+        {
+            checks.RemoveAt(checks.Count-1);
+            Console.BackgroundColor = CheckColor;
         }
         else
         {
