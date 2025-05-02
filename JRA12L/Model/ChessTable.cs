@@ -29,7 +29,108 @@ public class ChessTable : ITable
 
     public List<Coordinates> GetChecks()
     {
-        return _checks;
+        List<Coordinates> returnableChecks = [.._checks];
+        returnableChecks.Sort((a, b) => b.CompareTo(a));
+        return returnableChecks;
+    }
+
+    private List<Coordinates> GetCheckBlockableTiles()
+    {
+        List<Coordinates> blockChecks = [];
+        //if double check or no check
+        if(_checks.Count >= 3 || _checks.Count == 0)
+        {
+            return [];
+        }
+        //0 index is attacker, 1 index is the king
+        if(_checks[0].X == _checks[1].X)
+        {
+            if(_checks[0].Y > _checks[1].Y)
+            {
+                for(int i = _checks[0].Y; i > _checks[1].Y; i--)
+                {
+                    blockChecks.Add(new Coordinates(_checks[0].X, (sbyte)i));
+                }
+            }
+            else
+            {
+                for(int i = _checks[0].Y; i < _checks[1].Y; i++)
+                {
+                    blockChecks.Add(new Coordinates(_checks[0].X, (sbyte)i));
+                }
+            }
+        }
+        else if(_checks[0].Y == _checks[1].Y)
+        {
+            if(_checks[0].X > _checks[1].X)
+            {
+                for(int i = _checks[0].X; i > _checks[1].X; i--)
+                {
+                    blockChecks.Add(new Coordinates((sbyte)i, _checks[0].Y));
+                }
+            }
+            else
+            {
+                for(int i = _checks[0].X; i < _checks[1].X; i++)
+                {
+                    blockChecks.Add(new Coordinates((sbyte)i, _checks[0].Y));
+                }
+            }
+        }
+        else if(Math.Abs(_checks[1].X-_checks[0].X) == Math.Abs(_checks[1].Y-_checks[0].Y))
+        {
+            if (_checks[0].Y > _checks[1].Y)
+            {
+                if (_checks[0].X > _checks[1].X)
+                {
+                    sbyte x = _checks[0].X;
+                    sbyte y = _checks[0].Y;
+                    while(y > _checks[1].Y)
+                    {
+                        blockChecks.Add(new Coordinates(x, y));
+                        x--;
+                        y--;
+                    }
+                }
+                else
+                {
+                    sbyte x = _checks[0].X;
+                    sbyte y = _checks[0].Y;
+                    while (y > _checks[1].Y)
+                    {
+                        blockChecks.Add(new Coordinates(x, y));
+                        x++;
+                        y--;
+                    }
+                }
+            }
+            else
+            {
+                if (_checks[0].X > _checks[1].X)
+                {
+                    sbyte x = _checks[0].X;
+                    sbyte y = _checks[0].Y;
+                    while (y < _checks[1].Y)
+                    {
+                        blockChecks.Add(new Coordinates(x, y));
+                        x--;
+                        y++;
+                    }
+                }
+                else
+                {
+                    sbyte x = _checks[0].X;
+                    sbyte y = _checks[0].Y;
+                    while(y < _checks[1].Y)
+                    {
+                        blockChecks.Add(new Coordinates(x, y));
+                        x++;
+                        y++;
+                    }
+                }
+            }
+        }
+        return blockChecks;
     }
     public List<Coordinates> GetValidMoves(Coordinates selectedFigure)
     {
@@ -37,7 +138,29 @@ public class ChessTable : ITable
         _validMoves = [];
         if(GetCurrentStep()[selectedFigure].GetChessPieceColor() == GetCurrentStep().WhoseTurn)
         {
-            _validMoves = GetCurrentStep()[selectedFigure].GetValidMoves(this, selectedFigure);
+            //if double check only the king can move
+            if(_checks.Count == 3 && GetCurrentStep()[selectedFigure].GetChessPieceType() == ChessPieceType.King)
+            {
+                _validMoves = GetCurrentStep()[selectedFigure].GetValidMoves(this, selectedFigure);
+            }
+            else if(_checks.Count == 0)
+            {
+                _validMoves = GetCurrentStep()[selectedFigure].GetValidMoves(this, selectedFigure);
+            }
+            else if(_checks.Count < 3)
+            {
+                //step out from check with king
+                if (GetCurrentStep()[selectedFigure].GetChessPieceType() == ChessPieceType.King)
+                {
+                    _validMoves = GetCurrentStep()[selectedFigure].GetValidMoves(this, selectedFigure);
+                }
+                else
+                {
+                    _validMoves = GetCurrentStep()[selectedFigure].GetValidMoves(this, selectedFigure);
+                    List<Coordinates> blockingMoves = GetCheckBlockableTiles();
+                    _validMoves.RemoveAll(item => !blockingMoves.Contains(item));
+                }
+            }
         }
         _validMoves.Sort((a, b) => b.CompareTo(a));
         return _validMoves;

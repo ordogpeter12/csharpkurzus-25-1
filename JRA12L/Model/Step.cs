@@ -429,14 +429,12 @@ public sealed record Step : IStep
             new WhiteKnight().GetValidMoves(new ChessTable(this), inspectedTile): new BlackKnight().GetValidMoves(new ChessTable(this), inspectedTile);
         foreach(var possibleKnight in possibleKnights)
         {
-            Console.WriteLine(possibleKnight);
             if (this[possibleKnight].GetChessPieceColor() != kingColor
                 && this[possibleKnight].GetChessPieceType() == ChessPieceType.Knight)
             {
                 return possibleKnight;
             }
         }
-        Console.ReadKey();
         return null;
     }
 }
