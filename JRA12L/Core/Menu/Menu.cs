@@ -63,10 +63,10 @@ public class Menu
                 StartGame();
                 break;
             case 1:
-                GetSaves("Saves");
+                GetSaves("Saves", LoadGame);
                 break;
             case 2:
-                GetSaves("Delete saves");
+                GetSaves("Delete saves", DeleteSave);
                 break;
             case 3:
                 break;
@@ -82,7 +82,7 @@ public class Menu
         game.StartGame();
     }
 
-    private void GetSaves(string title)
+    private void GetSaves(string title, Action<string> action)
     {
         Dictionary<string, string> localControls = new()
         {
@@ -112,8 +112,18 @@ public class Menu
                     selecting = false;
                     break;
                 case IUserInput.UserInput.Select:
+                    action(localMenuItems[localPosition]);
+                    selecting = false;
                     break;
             }
         }
+    }
+    private static void DeleteSave(string filename)
+    {
+        SaveDeleter.DeleteSave(filename, ".json");
+    }
+    private static void LoadGame(string filename)
+    {
+        //TODO
     }
 }
