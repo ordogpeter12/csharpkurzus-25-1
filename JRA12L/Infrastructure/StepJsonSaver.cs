@@ -7,7 +7,7 @@ public static class StepJsonSaver
     public static bool Save(List<JsonStepDto> steps, string fileName)
     {
         fileName += ".json";
-        string path = Path.Combine(AppContext.BaseDirectory, "saves");
+        string path = Path.Combine(AppContext.BaseDirectory, SaveDirectoryReader.GameSaveDir);
         try
         {
             if(!Directory.Exists(path))

@@ -5,11 +5,12 @@ public class ConsoleMenu : IMenuView
     private readonly ConsoleColor _defaultConsoleForegroundColor;
     private readonly ConsoleColor _defaultConsoleBackgroundColor;
         
-    private const ConsoleColor SelectedMenuItemBackground = ConsoleColor.Black;
-    private const ConsoleColor SelectedMenuItemForeground = ConsoleColor.White;
+    private const ConsoleColor SelectedMenuItemBackground = ConsoleColor.White;
+    private const ConsoleColor SelectedMenuItemForeground = ConsoleColor.Black;
     private const ConsoleColor DefaultMenuItemBackground = ConsoleColor.Black;
     private const ConsoleColor DefaultMenuItemForeground = ConsoleColor.White;
 
+    private string _lastTitle = "";
     public ConsoleMenu()
     {
         _defaultConsoleForegroundColor = Console.ForegroundColor;
@@ -22,23 +23,29 @@ public class ConsoleMenu : IMenuView
     }
     public void DrawMenu(string title, string[] menuItems, int currentIndex, Dictionary<string, string> controls)
     {
+        if(_lastTitle != title)
+        {
+            Console.Clear();
+        }
+        _lastTitle = title;
         Console.SetCursorPosition(0, 0);
-        Console.BackgroundColor = ConsoleColor.Black;
-        Console.ForegroundColor = ConsoleColor.White;
+        Console.CursorVisible = false;
+        Console.BackgroundColor = DefaultMenuItemBackground;
+        Console.ForegroundColor = DefaultMenuItemForeground;
         Console.WriteLine(title);
         Console.WriteLine();
         for(int i = 0; i < menuItems.Length; i++)
         {
             if(i != currentIndex)
             {
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = DefaultMenuItemBackground;
+                Console.ForegroundColor = DefaultMenuItemForeground;
                 Console.WriteLine(menuItems[i]);
             }
             else
             {
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.Black;
+                Console.BackgroundColor = SelectedMenuItemBackground;
+                Console.ForegroundColor = SelectedMenuItemForeground;
                 Console.WriteLine(menuItems[i]);
             }
         }

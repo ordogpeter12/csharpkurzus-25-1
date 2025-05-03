@@ -1,4 +1,5 @@
 using JRA12L.Core.ChessGame;
+using JRA12L.Infrastructure;
 using JRA12L.View;
 
 namespace JRA12L.Core.Menu;
@@ -12,8 +13,8 @@ public class Menu
 
     private readonly Dictionary<string, string> _controls = new()
     {
-        {"W", "UP" },
-        {"S", "DOWN" },
+        {"w", "UP" },
+        {"s", "DOWN" },
         {"↵", "SELECT" }
     };
 
@@ -62,8 +63,10 @@ public class Menu
                 StartGame();
                 break;
             case 1:
+                GetSaves("Saves");
                 break;
             case 2:
+                GetSaves("Delete saves");
                 break;
             case 3:
                 break;
@@ -77,5 +80,40 @@ public class Menu
         using IView view = new ConsoleView();
         Game game = new Game(new ConsoleUserInput(), view, new ChessTable(new Step()));
         game.StartGame();
+    }
+
+    private void GetSaves(string title)
+    {
+        Dictionary<string, string> localControls = new()
+        {
+            { "w", "UP" }, { "s", "DOWN" }, { "a", "BACK" }, { "↵", "SELECT" }
+        };
+        string[] localMenuItems = SaveDirectoryReader.GetSaves();
+        int localPosition = 0;
+        bool selecting = true;
+        while(selecting)
+        {
+            _menu.DrawMenu(title, localMenuItems, localPosition, localControls);
+            switch((IUserInput.UserInput)_userInput.GetUserInput())
+            {
+                case IUserInput.UserInput.Up:
+                    if(localPosition == 0)
+                        localPosition = localMenuItems.Length - 1;
+                    else
+                        localPosition--;
+                    break;
+                case IUserInput.UserInput.Down:
+                    if(localPosition == localMenuItems.Length - 1)
+                        localPosition = 0;
+                    else
+                        localPosition++;
+                    break;
+                case IUserInput.UserInput.Left:
+                    selecting = false;
+                    break;
+                case IUserInput.UserInput.Select:
+                    break;
+            }
+        }
     }
 }
