@@ -60,7 +60,8 @@ public sealed record Step : IStep
     {
         return new StepSavableInformation
         {
-            TableValue = this._tableValue,
+            TableValue = string.Join("", _tableValue.Select(
+                t => new string(new[] {(char)t.GetChessPieceColor(), (char)t.GetChessPieceType()}))),
             WhiteShortCastle = this.WhiteShortCastle,
             WhiteLongCastle = this.WhiteLongCastle,
             BlackShortCastle = this.BlackShortCastle,

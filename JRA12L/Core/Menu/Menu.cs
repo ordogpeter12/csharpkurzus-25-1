@@ -7,7 +7,15 @@ public class Menu
 {
     private readonly IUserInput _userInput;
     private readonly IMenuView _menu;
+    private readonly string _title = "Console chess";
     private readonly string[] _menuItems = [ "New Game", "Load Game", "Delete Save", "Controls", "Exit" ];
+
+    private readonly Dictionary<string, string> _controls = new()
+    {
+        {"W", "UP" },
+        {"S", "DOWN" },
+        {"↵", "SELECT" }
+    };
 
     private bool _exit;
     private int _userPosition;
@@ -24,7 +32,7 @@ public class Menu
     {
         while(!_exit)
         {
-            _menu.DrawMenu(_menuItems, _userPosition);
+            _menu.DrawMenu(_title, _menuItems, _userPosition, _controls);
             switch((IUserInput.UserInput)_userInput.GetUserInput())
             {
                 case IUserInput.UserInput.Up:

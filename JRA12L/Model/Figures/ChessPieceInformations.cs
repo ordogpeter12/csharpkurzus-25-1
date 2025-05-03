@@ -1,15 +1,15 @@
 namespace JRA12L.Model.Figures;
 
-public enum ChessPieceColor : sbyte
+public enum ChessPieceColor
 {
-    Blank,
+    Blank = 'A',
     White,
     Black,
 }
 
-public enum ChessPieceType : sbyte
+public enum ChessPieceType
 {
-    None,
+    None = 'a',
     Pawn,
     Knight,
     Bishop,

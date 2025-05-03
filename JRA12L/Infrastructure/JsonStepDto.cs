@@ -1,10 +1,10 @@
 using JRA12L.Model.Figures;
 
-namespace JRA12L.Model;
+namespace JRA12L.Infrastructure;
 
-public record StepSavableInformation
-{
-    public string TableValue;
+public record JsonStepDto
+{ 
+    public string TableValue { get; set; }
     public bool WhiteShortCastle { get; set; }
     public bool WhiteLongCastle { get; set; }
     public bool BlackShortCastle { get; set; }

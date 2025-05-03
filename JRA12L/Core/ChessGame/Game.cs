@@ -1,3 +1,6 @@
+using System.IO.Enumeration;
+
+using JRA12L.Infrastructure;
 using JRA12L.Model;
 using JRA12L.View;
 
@@ -51,6 +54,7 @@ public class Game
                 case IUserInput.UserInput.Backward:
                     break;
                 case IUserInput.UserInput.Save:
+                    SaveGame(_chessTable.GetSteps());
                     break;
                 case IUserInput.UserInput.Exit:
                     _gameOver = true;
@@ -99,5 +103,25 @@ public class Game
                     break;
             }
         }
+    }
+    private bool SaveGame(List<IStep> steps)
+    {
+        List<JsonStepDto> stepsJson = new List<JsonStepDto>();
+        foreach(var step in steps)
+        {
+            stepsJson.Add(JsonMapper.ToDto((step.GetSavableInformation())));
+        }
+        _view.DisplayMessage("Give the save a name!(max. 50 characters)");
+        string? filename = _userInput.GetString();
+        while(string.IsNullOrEmpty(filename))
+        {
+            _view.DisplayMessage("The save's name has to be at least 1 character long");
+            filename = _userInput.GetString();
+        }
+        if (filename.Length > 50)
+        {
+            filename = filename.Substring(0, 50);
+        }
+        return StepJsonSaver.Save(stepsJson, filename);
     }
 }

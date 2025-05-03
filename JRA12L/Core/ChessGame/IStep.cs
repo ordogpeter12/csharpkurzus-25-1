@@ -12,6 +12,7 @@ public interface IStep
     bool WhiteLongCastle { get; }
     bool BlackShortCastle { get; }
     bool BlackLongCastle { get; }
+    StepSavableInformation GetSavableInformation();
     Figure this[sbyte x, sbyte y] { get; }
     Figure this[Coordinates coordinates] { get; }
     ChessPieceColor WhoseTurn { get; }

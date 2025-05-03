@@ -20,9 +20,13 @@ public class ConsoleMenu : IMenuView
         Console.CursorVisible = false;
         Console.Clear();
     }
-    public void DrawMenu(string[] menuItems, int currentIndex)
+    public void DrawMenu(string title, string[] menuItems, int currentIndex, Dictionary<string, string> controls)
     {
         Console.SetCursorPosition(0, 0);
+        Console.BackgroundColor = ConsoleColor.Black;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine(title);
+        Console.WriteLine();
         for(int i = 0; i < menuItems.Length; i++)
         {
             if(i != currentIndex)
@@ -38,6 +42,18 @@ public class ConsoleMenu : IMenuView
                 Console.WriteLine(menuItems[i]);
             }
         }
+        Console.WriteLine();
+        Console.WriteLine();
+        foreach(var pair in controls)
+        {
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Write(" "+pair.Key+" ");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" "+pair.Value+"    ");
+        }
+        Console.Out.Flush();
     }
     public void Dispose()
     {

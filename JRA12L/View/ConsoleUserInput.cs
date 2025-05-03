@@ -6,4 +6,9 @@ public class ConsoleUserInput : IUserInput
     {
         return Console.ReadKey(true).KeyChar;
     }
+    public string? GetString()
+    {
+        return Console.ReadLine();
+        
+    }
 }

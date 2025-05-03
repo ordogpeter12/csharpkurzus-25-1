@@ -15,4 +15,5 @@ public interface IUserInput
         Exit = 'z',
     }
     char GetUserInput();
+    string? GetString();
 }

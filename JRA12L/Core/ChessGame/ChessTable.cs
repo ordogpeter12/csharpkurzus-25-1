@@ -30,6 +30,7 @@ public class ChessTable : ITable
     }
     public IStep GetCurrentStep() => _steps[_displayIndex];
     public IStep? GetPreviousStep() => _displayIndex != 0 ? _steps[_displayIndex - 1] : null;
+    public List<IStep> GetSteps() => [.._steps];
 
     public List<Coordinates> GetChecks()
     {

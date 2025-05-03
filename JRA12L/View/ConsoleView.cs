@@ -40,6 +40,7 @@ public class ConsoleView : IView
     public void Draw(IStep step, Coordinates playerCoordinates, 
         List<Coordinates> checks, List<Coordinates>? reverseOrderedPossibleMoves = null)
     {
+        Console.ForegroundColor = GameFigureColor;
         if(Console.CursorTop != _chessTableBottom)
         {
             Console.Clear();
@@ -109,5 +110,10 @@ public class ConsoleView : IView
         Console.WriteLine();
         Console.BackgroundColor = GameBackgroundColor;
         Console.ForegroundColor = GameFigureColor;
+    }
+    public void DisplayMessage(string message)
+    {
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.Out.WriteLine(message);
     }
 }
