@@ -21,13 +21,11 @@ public static class StepJsonSaver
                 WriteIndented = true,
             };
             string jsonString = JsonSerializer.Serialize(steps, options);
-            Console.WriteLine(path);
             File.WriteAllText(path, jsonString);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
-            Thread.Sleep(10000);
-            Console.WriteLine(e);
+            return false;
         }
         return true;
     }

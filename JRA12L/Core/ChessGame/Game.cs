@@ -1,5 +1,3 @@
-using System.IO.Enumeration;
-
 using JRA12L.Infrastructure;
 using JRA12L.Model;
 using JRA12L.View;
@@ -54,7 +52,8 @@ public class Game
                 case IUserInput.UserInput.Backward:
                     break;
                 case IUserInput.UserInput.Save:
-                    SaveGame(_chessTable.GetSteps());
+                    if(SaveGame(_chessTable.GetSteps()))
+                        _view.DisplayMessage("Couldn't save game!");
                     break;
                 case IUserInput.UserInput.Exit:
                     _gameOver = true;
@@ -106,7 +105,7 @@ public class Game
     }
     private bool SaveGame(List<IStep> steps)
     {
-        List<JsonStepDto> stepsJson = new List<JsonStepDto>();
+        List<JsonStepDto> stepsJson = [];
         foreach(var step in steps)
         {
             stepsJson.Add(JsonMapper.ToDto((step.GetSavableInformation())));
