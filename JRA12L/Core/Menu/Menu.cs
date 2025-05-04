@@ -1,4 +1,5 @@
 using JRA12L.Core.ChessGame;
+using JRA12L.Factories;
 using JRA12L.Infrastructure;
 using JRA12L.View;
 
@@ -93,7 +94,7 @@ public class Menu
         bool selecting = true;
         while(selecting)
         {
-            _menu.DrawMenu(title, localMenuItems, localPosition, localControls);
+            _menu.DrawMenu(title, localMenuItems.Select(Path.GetFileNameWithoutExtension).ToArray()!, localPosition, localControls);
             switch((IUserInput.UserInput)_userInput.GetUserInput())
             {
                 case IUserInput.UserInput.Up:
@@ -120,10 +121,27 @@ public class Menu
     }
     private static void DeleteSave(string filename)
     {
-        SaveDeleter.DeleteSave(filename, ".json");
+        SaveDeleter.DeleteSave(filename);
     }
+
     private static void LoadGame(string filename)
     {
-        //TODO
+        List<JsonStepDto> dtos = JsonStepLoader.LoadJsonSteps(filename);
+        if(dtos.Count == 0)
+        {
+            //No good
+            return;
+        }
+        try
+        {
+            using IView view = new ConsoleView();
+            Game game = new Game(new ConsoleUserInput(), view,
+                new ChessTable(dtos.Select(dto => (IStep)JsonMapper.ToDomainObject(dto)).ToList()));
+            game.StartGame();
+        }
+        catch(Exception e)
+        {
+            //TODO
+        }
     }
 }

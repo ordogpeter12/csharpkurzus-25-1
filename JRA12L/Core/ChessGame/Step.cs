@@ -30,6 +30,8 @@ public sealed record Step : IStep
     public Step(Figure[] tableValue, bool whiteShortCastle, bool whiteLongCastle, bool blackShortCastle,
         bool blackLongCastle, ChessPieceColor whoseTurn)
     {
+        if(tableValue.Length != XAxisLenght*YAxisLenght)
+            throw new ArgumentException("The figure array lenght is invalid.");
         _tableValue = tableValue;
         WhiteShortCastle = whiteShortCastle;
         WhiteLongCastle = whiteLongCastle;

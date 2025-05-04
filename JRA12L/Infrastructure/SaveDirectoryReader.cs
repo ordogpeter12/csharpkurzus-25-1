@@ -22,7 +22,7 @@ public static class SaveDirectoryReader
         }
         for(int i = 0; i < saves.Length; i++)
         {
-            saves[i] = Path.GetFileNameWithoutExtension(saves[i]);
+            saves[i] = Path.GetFileName(saves[i]);
         }
         return saves;
     }

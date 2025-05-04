@@ -21,6 +21,7 @@ public class ChessTable : ITable
         }
         this._steps = steps;
         this._displayIndex = steps.Count-1;
+        _checks = GetCurrentStep().GetChecks();
     }
 
     public ChessTable(IStep step)

@@ -2,10 +2,9 @@ namespace JRA12L.Infrastructure;
 
 public static class SaveDeleter
 {
-    public static bool DeleteSave(string fileBasename, string extension)
+    public static bool DeleteSave(string filename)
     {
-        string fileName = fileBasename + extension;
-        string path = Path.Combine(AppContext.BaseDirectory, SaveDirectoryReader.GameSaveDir, fileName);
+        string path = Path.Combine(AppContext.BaseDirectory, SaveDirectoryReader.GameSaveDir, filename);
         if(!File.Exists(path))
         {
             return false;
