@@ -115,7 +115,7 @@ public sealed record Step : IStep
         }
         //promotion
         if (this[movedPiece].GetChessPieceType() == ChessPieceType.Pawn
-            && destination.Y == 0 || destination.Y == YAxisLenght - 1)
+            && destination.Y is 0 or YAxisLenght - 1)
         {
             nextStep._tableValue[destination.Y*XAxisLenght+destination.X] = 
                 PromotionChoice(promotionMenu, userInput, this[movedPiece].GetChessPieceColor());
