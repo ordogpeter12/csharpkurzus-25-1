@@ -235,7 +235,7 @@ public sealed record Step : IStep
             return false;
         return true;
     }
-    public List<Coordinates> GetCheckingFigures(Coordinates inspectedTile, ChessPieceColor kingColor)
+    private  List<Coordinates> GetCheckingFigures(Coordinates inspectedTile, ChessPieceColor kingColor)
     {
         List<Coordinates> checkingFigures = [];
         //pawn

@@ -151,6 +151,10 @@ public class ChessTable : ITable
                 }
             }
         }
+        else
+        {
+            blockChecks.Add(_checks[0]);
+        }
         return blockChecks;
     }
     public List<Coordinates> GetValidMoves(Coordinates selectedFigure)
