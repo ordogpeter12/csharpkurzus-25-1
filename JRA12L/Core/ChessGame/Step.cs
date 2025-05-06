@@ -25,6 +25,7 @@ public sealed record Step : IStep
         WhiteLongCastle = step.WhiteLongCastle;
         BlackShortCastle = step.BlackShortCastle;
         BlackLongCastle = step.BlackLongCastle;
+        WhoseTurn = step.WhoseTurn;
     }
 
     public Step(Figure[] tableValue, bool whiteShortCastle, bool whiteLongCastle, bool blackShortCastle,

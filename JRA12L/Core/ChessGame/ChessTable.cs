@@ -7,7 +7,8 @@ namespace JRA12L.Core.ChessGame;
 public class ChessTable : ITable
 {
     private List<IStep> _steps;
-    private int _displayIndex; //For rewinding steps
+    private int _displayIndex;
+    private int _maxIndex;
 
     private Coordinates _selectedFigure;
     private List<Coordinates> _validMoves;
@@ -21,6 +22,7 @@ public class ChessTable : ITable
         }
         this._steps = steps;
         this._displayIndex = steps.Count-1;
+        this._maxIndex = this._displayIndex;
         _checks = GetCurrentStep().GetChecks();
     }
 
@@ -28,11 +30,24 @@ public class ChessTable : ITable
     {
         this._steps = new() {step};
         this._displayIndex = 0;
+        this._maxIndex = 0;
     }
     public IStep GetCurrentStep() => _steps[_displayIndex];
     public IStep? GetPreviousStep() => _displayIndex != 0 ? _steps[_displayIndex - 1] : null;
     public List<IStep> GetSteps() => [.._steps];
 
+    public void UndoMove()
+    {
+        if(_displayIndex > 0)
+            _displayIndex--;
+        _checks = GetCurrentStep().GetChecks();
+    }
+    public void RedoMove()
+    {
+        if(_displayIndex < _maxIndex)
+            _displayIndex++;
+        _checks = GetCurrentStep().GetChecks();
+    }
     public List<Coordinates> GetChecks()
     {
         List<Coordinates> returnableChecks = [.._checks];
@@ -177,6 +192,7 @@ public class ChessTable : ITable
         {
             _steps.Add(GetCurrentStep().GetNextStep(_selectedFigure, destination, promotionMenu, userInput));
             _displayIndex++;
+            _maxIndex = _displayIndex;
             _checks = GetCurrentStep().GetChecks();
             return true;
         }

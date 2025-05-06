@@ -48,8 +48,10 @@ public class Game
                     SelectAction(_chessTable.GetValidMoves(_playerPosition));
                     break;
                 case IUserInput.UserInput.Forward:
+                    _chessTable.RedoMove();
                     break;
                 case IUserInput.UserInput.Backward:
+                    _chessTable.UndoMove();
                     break;
                 case IUserInput.UserInput.Save:
                     if(SaveGame(_chessTable.GetSteps()))

@@ -5,6 +5,8 @@ namespace JRA12L.Core.ChessGame;
 
 public interface ITable
 {
+    void UndoMove();
+    void RedoMove();
     IStep GetCurrentStep();
     IStep? GetPreviousStep();
     List<Coordinates> GetValidMoves(Coordinates selectedFigure);

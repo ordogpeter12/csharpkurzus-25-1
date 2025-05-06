@@ -9,8 +9,8 @@ public interface IUserInput
         Left = 'a',
         Right = 'd',
         Select = '\r',
-        Forward = 'k',
-        Backward = 'l',
+        Forward = 'l',
+        Backward = 'j',
         Save = 'm',
         Exit = 'z',
     }
