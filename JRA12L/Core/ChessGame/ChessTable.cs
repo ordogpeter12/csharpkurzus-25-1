@@ -6,12 +6,12 @@ namespace JRA12L.Core.ChessGame;
 
 public class ChessTable : ITable
 {
-    private List<IStep> _steps;
+    private readonly List<IStep> _steps;
     private int _displayIndex;
     private int _maxIndex;
 
     private Coordinates _selectedFigure;
-    private List<Coordinates> _validMoves;
+    private List<Coordinates> _validMoves = [];
     private List<Coordinates> _checks = [];
     
     public ChessTable(List<IStep> steps)
@@ -28,7 +28,7 @@ public class ChessTable : ITable
 
     public ChessTable(IStep step)
     {
-        this._steps = new() {step};
+        this._steps = [step];
         this._displayIndex = 0;
         this._maxIndex = 0;
     }
@@ -54,7 +54,6 @@ public class ChessTable : ITable
         returnableChecks.Sort((a, b) => b.CompareTo(a));
         return returnableChecks;
     }
-
     private List<Coordinates> GetCheckBlockableTiles()
     {
         List<Coordinates> blockChecks = [];

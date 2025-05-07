@@ -1,5 +1,4 @@
 using JRA12L.Core.ChessGame;
-using JRA12L.Factories;
 using JRA12L.Infrastructure;
 using JRA12L.View;
 
@@ -124,12 +123,14 @@ public class Menu
         SaveDeleter.DeleteSave(filename);
     }
 
-    private static void LoadGame(string filename)
+    private void LoadGame(string filename)
     {
         List<JsonStepDto> dtos = JsonStepLoader.LoadJsonSteps(filename);
         if(dtos.Count == 0)
         {
-            //No good
+            var control = new Dictionary<string, string> { {"any key", "BACK"} };
+            _menu.DrawMenu("Error", ["Couldn't load game"], -1,control);
+            _userInput.GetUserInput();;
             return;
         }
         try
@@ -141,7 +142,9 @@ public class Menu
         }
         catch(Exception e)
         {
-            //TODO
+            var control = new Dictionary<string, string> { {"any key", "BACK"} };
+            _menu.DrawMenu("Error", ["Corrupted Save File"], -1,control);
+            _userInput.GetUserInput();;
         }
     }
 }
