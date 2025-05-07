@@ -193,7 +193,15 @@ public class ChessTable : ITable
     {
         if(_validMoves.Contains(destination))
         {
-            _steps.Add(GetCurrentStep().GetNextStep(_selectedFigure, destination, promotionMenu, userInput));
+            IStep newStep = GetCurrentStep().GetNextStep(_selectedFigure, destination, promotionMenu, userInput);
+            if(_displayIndex != _maxIndex)
+            {
+                _steps[_displayIndex+1] = newStep;
+            }
+            else
+            {
+                _steps.Add(newStep);
+            }
             _displayIndex++;
             _maxIndex = _displayIndex;
             _checks = GetCurrentStep().GetChecks();
