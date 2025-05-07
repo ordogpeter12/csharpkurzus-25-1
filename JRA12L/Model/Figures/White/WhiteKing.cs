@@ -37,6 +37,11 @@ public class WhiteKing : Figure
     private List<Coordinates> GetCastles(IStep currentStep, Coordinates figureCoordinates)
     {
         List<Coordinates> validMoves = [];
+        //a king in check can't castle
+        if(!currentStep.IsKingSafe(figureCoordinates, Color))
+        {
+            return validMoves;
+        }
         if(currentStep.WhiteLongCastle
            && currentStep[(sbyte)(figureCoordinates.X+1), figureCoordinates.Y].GetChessPieceColor() == ChessPieceColor.Blank
            && currentStep[(sbyte)(figureCoordinates.X+2), figureCoordinates.Y].GetChessPieceColor() == ChessPieceColor.Blank
