@@ -69,6 +69,7 @@ public class Menu
                 GetSaves("Delete saves", DeleteSave);
                 break;
             case 3:
+                LoadControls();
                 break;
             case 4:
                 _exit = true;
@@ -144,7 +145,32 @@ public class Menu
         {
             var control = new Dictionary<string, string> { {"any key", "BACK"} };
             _menu.DrawMenu("Error", ["Corrupted Save File"], -1,control);
-            _userInput.GetUserInput();;
+            _userInput.GetUserInput();
+        }
+    }
+    private void LoadControls()
+    {
+        string[] controlsFileContent = [];
+        var control = new Dictionary<string, string> { {"any key", "BACK"} };
+        try
+        {
+            controlsFileContent = ReadTextFile.ReadRows("controls.txt");
+        }
+        catch(Exception e)
+        {
+            _menu.DrawMenu("Error", ["Source file not fount!"], -1, control);
+            _userInput.GetUserInput();
+            return;
+        }
+        if(controlsFileContent.Length != 0)
+        {
+            _menu.DrawMenu("Controls", controlsFileContent, -1, control);
+            _userInput.GetUserInput();
+        }
+        else
+        {
+            _menu.DrawMenu("Error", ["Source file has no content!"], -1, control);
+            _userInput.GetUserInput();
         }
     }
 }
