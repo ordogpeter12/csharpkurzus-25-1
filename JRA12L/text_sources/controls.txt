@@ -1,0 +1,11 @@
+w: up
+s: down
+a: left
+d: right
+Enter: select figure
+Enter(while figure is selected): step with figure
+z: end game(without save)
+z(while figure is selected): cancel selection
+m: save
+j: undo one move
+l: redo one move
