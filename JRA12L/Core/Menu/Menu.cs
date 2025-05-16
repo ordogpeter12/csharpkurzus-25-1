@@ -113,7 +113,8 @@ public class Menu
                     selecting = false;
                     break;
                 case IUserInput.UserInput.Select:
-                    action(localMenuItems[localPosition]);
+                    if(localPosition != localMenuItems.Length)
+                        action(localMenuItems[localPosition]);
                     selecting = false;
                     break;
             }
